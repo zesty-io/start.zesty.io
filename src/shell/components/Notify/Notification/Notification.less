@@ -1,0 +1,51 @@
+@import '~@zesty-io/core/colors.less';
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.Animate {
+  animation: fadeIn;
+  animation-duration: 300ms;
+}
+.Notification {
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  margin-top: 1.3rem;
+  max-width: 35rem;
+  min-height: 20px;
+  background-color: @zesty-dark-blue;
+  color: @zesty-white;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.75);
+}
+.Content {
+  display: flex;
+  width: 100%;
+  .Message {
+    flex: 1;
+    flex-basis: auto;
+  }
+  .Close {
+    margin-left: 1rem;
+    cursor: pointer;
+    justify-self: flex-end;
+    align-self: flex-start;
+  }
+}
+
+.error {
+  color: @zesty-red;
+  background-color: @zesty-dark-blue;
+}
+.success {
+  color: @zesty-green;
+  background-color: @zesty-dark-blue;
+}
+.info {
+  color: @zesty-highlight;
+  background-color: @zesty-dark-blue;
+}
