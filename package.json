@@ -22,7 +22,7 @@
   ],
   "license": "All Rights Reserved",
   "dependencies": {
-    "@zesty-io/core": "0.4.14",
+    "@zesty-io/core": "0.16.9",
     "classnames": "2.2.6",
     "core-js": "3.2.1",
     "html-webpack-plugin": "^4.3.0",
