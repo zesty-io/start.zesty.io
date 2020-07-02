@@ -9,7 +9,7 @@ import { ContentPage } from './components/ContentPage'
 
 export default function GettingStarted() {
   const { state, dispatch } = useContext(AppStateContext)
-  const [step, setStep] = useState(2)
+  const [step, setStep] = useState(null)
   const [build, setBuild] = useState('')
   const [account, setAccount] = useState({
     message: '',

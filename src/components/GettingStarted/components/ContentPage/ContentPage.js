@@ -29,7 +29,7 @@ export function ContentPage(props) {
         <FieldTypeImage
           className={styles.TextField}
           name="image"
-          callback={(name, value) => props.setPage(name, value)}
+          onChange={(name, value) => props.setPage(name, value)}
           default={props.page.image}
           label="Upload image"
           limit="1"
