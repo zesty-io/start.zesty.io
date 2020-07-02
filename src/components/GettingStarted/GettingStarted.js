@@ -5,11 +5,12 @@ import { AppStateContext, AppDispatchContext } from '../../context'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
+import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
 
 export default function GettingStarted() {
   const { state, dispatch } = useContext(AppStateContext)
-  const [step, setStep] = useState(null)
+  const [step, setStep] = useState(2)
   const [build, setBuild] = useState('')
   const [account, setAccount] = useState({
     message: '',
@@ -30,7 +31,6 @@ export default function GettingStarted() {
   useEffect(() => {
     console.log('Global state', state)
   }, [])
-  // https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg
 
   function createAccount(e) {
     e.preventDefault()
@@ -54,6 +54,28 @@ export default function GettingStarted() {
             setAccount({ ...account, [type]: value })
           }
           createAccount={createAccount}
+        />
+      </WizardStep>
+
+      <WizardStep style={{ width: '960px' }}>
+        <SiteCreated
+          image="https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg"
+          title="Schema"
+          description="Lorem ipsum dolor sit amet consectetur adipisicing elit"
+        />
+      </WizardStep>
+      <WizardStep style={{ width: '960px' }}>
+        <SiteCreated
+          image="https://madewithnetwork.ams3.cdn.digitaloceanspaces.com//spatie-space-production/3212/zesty-io-2.jpg"
+          title="Content"
+          description="Lorem ipsum dolor sit amet consectetur adipisicing elit"
+        />
+      </WizardStep>
+      <WizardStep style={{ width: '960px' }}>
+        <SiteCreated
+          image="https://cdn0.capterra-static.com/screenshots/2101737/18986.png"
+          title="Code"
+          description="Lorem ipsum dolor sit amet consectetur adipisicing elit"
         />
       </WizardStep>
 
