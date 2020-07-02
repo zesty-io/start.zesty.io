@@ -5,6 +5,7 @@ import { AppProvider } from '../../context'
 
 import Hello from '../../components/Hello'
 import GettingStarted from '../../components/GettingStarted'
+import client from '../../api/client'
 
 import styles from './App.less'
 
