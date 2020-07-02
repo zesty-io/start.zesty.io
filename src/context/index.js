@@ -16,15 +16,18 @@ const reducer = (state, action) => {
 const initialState = {
   buildType: '',
   account: {
+    message: '',
+    submitted: false,
     email: '',
     firstName: '',
     lastName: '',
-    password: ''
+    pass: '',
+    eula: false
   },
   page: {
     title: '',
     description: '',
-    image: ''
+    image: []
   }
 }
 

@@ -5,20 +5,37 @@ import { AppStateContext, AppDispatchContext } from '../../context'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
+import { ContentPage } from './components/ContentPage'
 
 export default function GettingStarted() {
   const { state, dispatch } = useContext(AppStateContext)
-  // const dispatch = useContext(AppDispatchContext)
-  const [step, setStep] = useState(null)
+  const [step, setStep] = useState(2)
   const [build, setBuild] = useState('')
-  const [account, setAccount] = useState({})
+  const [account, setAccount] = useState({
+    message: '',
+    submitted: false,
+    email: '',
+    firstName: '',
+    lastName: '',
+    pass: '',
+    eula: false
+  })
+
+  const [page, setPage] = useState({
+    title: '',
+    description: '',
+    image: []
+  })
 
   useEffect(() => {
     console.log('Global state', state)
   }, [])
+  // https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg
 
-  function createAccount() {
+  function createAccount(e) {
+    e.preventDefault()
     dispatch({ type: 'SET_ACCOUNT', payload: account })
+    setStep(2)
   }
 
   return (
@@ -30,16 +47,28 @@ export default function GettingStarted() {
         <BuildType buildType={build} setBuildType={type => setBuild(type)} />
       </WizardStep>
 
-      <WizardStep onNext={createAccount} style={{ width: '750px' }}>
+      <WizardStep style={{ width: '750px' }} buttons={false}>
         <CreateAccount
           account={account}
           setAccount={(type, value) =>
             setAccount({ ...account, [type]: value })
           }
+          createAccount={createAccount}
         />
       </WizardStep>
 
-      <WizardStep>This is another example</WizardStep>
+      <WizardStep
+        onNext={() => dispatch({ type: 'SET_PAGE', payload: page })}
+        style={{ width: '960px' }}
+        labelButtonNext="Preview landing page">
+        <ContentPage
+          page={page}
+          setPage={(type, value) => {
+            setPage({ ...page, [type]: value })
+          }}
+        />
+      </WizardStep>
+      <WizardStep></WizardStep>
     </Wizard>
   )
 }
