@@ -9,7 +9,6 @@ import GettingStarted from '../../components/GettingStarted'
 import styles from './App.less'
 
 export default function App() {
-  console.trace()
   return (
     <AppProvider>
       <section className={cx(styles.AppShell, styles.bodyText)}>

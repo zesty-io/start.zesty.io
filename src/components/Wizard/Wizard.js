@@ -14,26 +14,12 @@ export function Wizard(props) {
   }, [props.defaultStep])
 
   function next(onNext) {
-    if (step < props.children.length) {
-      const newStep = step + 1
-      if (onNext) onNext()
-      setStep(newStep)
-    }
+    setStep(step => step + 1)
+    if (onNext) onNext()
   }
 
   function prev() {
-    if (step > 0) {
-      const prevStep = step - 1
-      setStep(prevStep)
-    }
-  }
-
-  function showBack(child) {
-    if (child !== undefined) {
-      return child
-    } else {
-      return step > 0
-    }
+    setStep(step => step - 1)
   }
 
   /**
@@ -41,56 +27,43 @@ export function Wizard(props) {
    * does so by tracking internal `step` state and then comparing it with the list
    * of children to determine which child node/component to render.
    */
+
+  const child = props.children.length ? props.children[step] : props.children
+  // show footer on all but last step
+  const showFooter = step < props.children.length - 1
+  const showPrevButton = step > 0
+  const showNextButton = step < props.children.length
+
   return (
     <div className={styles.WizardLayout}>
       <div className={styles.WizardAligner}>
-        {props.children.map((child, index) => {
-          return (
-            <Fragment key={index}>
-              {step === index && (
-                <div
-                  className={styles.WizardStepWrap}
-                  style={child.props.style}>
-                  {child}
-
-                  {/* Do not sure footer buttons on last step */}
-                  {step < props.children.length - 1 && (
-                    <div
-                      className={cx(styles.WizardFooter, {
-                        [styles.CenteredFooter]: !showBack(child.props.showBack)
-                      })}>
-                      {showBack(child.props.showBack) && (
-                        <Button
-                          kind="cancel"
-                          onClick={prev}
-                          className={styles.Button}>
-                          <i className="fa fa-chevron-left" /> Back
-                        </Button>
-                      )}
-                      {step < props.children.length && (
-                        <Button
-                          className={cx(styles.Button, styles.NextButton)}
-                          kind="primary"
-                          onClick={() => next(child.props.onNext)}
-                          disabled={child.props.locked}>
-                          <i
-                            className={cx(
-                              'fa fa-chevron-right',
-                              styles.ButtonIcon
-                            )}
-                          />
-                          {child.props.labelButtonNext
-                            ? child.props.labelButtonNext
-                            : 'Continue'}
-                        </Button>
-                      )}
-                    </div>
-                  )}
-                </div>
+        <div className={styles.WizardStepWrap} style={child.props.style}>
+          {child}
+          {showFooter && (
+            <div
+              className={cx(styles.WizardFooter, {
+                [styles.CenteredFooter]: !showPrevButton
+              })}>
+              {showPrevButton && (
+                <Button kind="cancel" onClick={prev} className={styles.Button}>
+                  <i className="fa fa-chevron-left" /> Back
+                </Button>
               )}
-            </Fragment>
-          )
-        })}
+              {showNextButton && (
+                <Button
+                  className={cx(styles.Button, styles.NextButton)}
+                  kind="primary"
+                  onClick={() => next(child.props.onNext)}
+                  disabled={child.props.locked}>
+                  <i className={cx('fa fa-chevron-right', styles.ButtonIcon)} />
+                  {child.props.labelButtonNext
+                    ? child.props.labelButtonNext
+                    : 'Continue'}
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
