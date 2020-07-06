@@ -9,10 +9,12 @@ const CONFIG = require('./app.config')
 
 module.exports = {
   entry: './src/index.js',
-  devtool:
-    process.env.NODE_ENV === 'development'
-      ? 'eval-cheap-module-source-map'
-      : 'cheap-module-source-map',
+  devServer: {
+    contentBase: path.resolve(__dirname, 'build'),
+    https: true,
+    host: 'start.dev.zesty.io'
+  },
+  devtool: 'cheap-module-source-map',
   mode: process.env.NODE_ENV,
   output: {
     filename:
