@@ -43,8 +43,10 @@ export function CreateAccount(props) {
                     type="email"
                     name="email"
                     placeholder="e.g. hello@zesty.io"
-                    value={props.account[name]}
-                    onChange={(name, value) => props.setAccount(name, value)}
+                    value={props.account.email}
+                    onChange={event =>
+                      props.setAccount('email', event.target.value)
+                    }
                   />
                 </label>
                 <label>
@@ -55,8 +57,10 @@ export function CreateAccount(props) {
                     type="text"
                     name="firstName"
                     placeholder="Zesty"
-                    value={props.account[name]}
-                    onChange={(name, value) => props.setAccount(name, value)}
+                    value={props.account.firstName}
+                    onChange={event => {
+                      props.setAccount('firstName', event.target.value)
+                    }}
                   />
                 </label>
                 <label>
@@ -66,8 +70,10 @@ export function CreateAccount(props) {
                     className={styles.input}
                     type="text"
                     name="lastName"
-                    value={props.account[name]}
-                    onChange={(name, value) => props.setAccount(name, value)}
+                    value={props.account.lastName}
+                    onChange={event =>
+                      props.setAccount('lastName', event.target.value)
+                    }
                   />
                 </label>
                 <label>
@@ -80,10 +86,12 @@ export function CreateAccount(props) {
                     required
                     className={styles.input}
                     type="password"
-                    name="pass"
+                    name="password"
                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[?=.*[a-zA-Z0-9!@#$%^&()<>.,:;[\]{}\-_.+,/]{8,}$"
-                    value={props.account[name]}
-                    onChange={(name, value) => props.setAccount(name, value)}
+                    value={props.account.password}
+                    onChange={event =>
+                      props.setAccount('password', event.target.value)
+                    }
                   />
                 </label>
                 <label className={styles.eula}>
@@ -92,8 +100,10 @@ export function CreateAccount(props) {
                     className={styles.checkbox}
                     type="checkbox"
                     name="eula"
-                    value={props.account[name]}
-                    onChange={(name, value) => props.setAccount(name, value)}
+                    value={props.account.eula}
+                    onChange={event =>
+                      props.setAccount('eula', event.target.value)
+                    }
                   />
                   <span>
                     I have read and agree to the{' '}

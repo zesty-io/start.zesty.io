@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
+
 import { Wizard, WizardStep } from '../Wizard'
 
-import { AppStateContext, AppDispatchContext } from '../../context'
+import { AppStateContext } from '../../context'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
 import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
+
+import Auth from '../../api/auth'
+import Accounts from '../../api/accounts'
 
 export default function GettingStarted() {
   const { state, dispatch } = useContext(AppStateContext)
@@ -18,7 +23,7 @@ export default function GettingStarted() {
     email: '',
     firstName: '',
     lastName: '',
-    pass: '',
+    password: '',
     eula: false
   })
 
@@ -32,10 +37,32 @@ export default function GettingStarted() {
     console.log('Global state', state)
   }, [])
 
-  function createAccount(e) {
+  async function createAccount(e) {
     e.preventDefault()
+
+    await Accounts.createAccount({
+      email: account.email,
+      firstName: account.firstName,
+      lastName: account.lastName,
+      password: account.password
+    })
+    console.log('created account')
     dispatch({ type: 'SET_ACCOUNT', payload: account })
     setStep(2)
+
+    login()
+  }
+
+  async function login() {
+    const {
+      meta: { token }
+    } = await Auth.login({ email: account.email, password: account.password })
+    console.log('logged in')
+
+    Cookies.set(__CONFIG__.COOKIE_NAME, token, {
+      path: '/',
+      domain: __CONFIG__.COOKIE_DOMAIN
+    })
   }
 
   return (
