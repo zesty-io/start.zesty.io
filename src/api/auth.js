@@ -1,4 +1,4 @@
-import client from './client'
+import { client } from './client'
 const AuthAPI = client(__CONFIG__.SERVICE_AUTH)
 const Auth = {
   login: body => {

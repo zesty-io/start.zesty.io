@@ -13,6 +13,7 @@ import { ContentPage } from './components/ContentPage'
 
 import Auth from '../../api/auth'
 import Accounts from '../../api/accounts'
+import Manager from '../../api/manager'
 
 export default function GettingStarted() {
   const { state, dispatch } = useContext(AppStateContext)
@@ -52,7 +53,10 @@ export default function GettingStarted() {
     setStep(2)
 
     await login()
-    createInstance()
+    const instanceHash = await createInstance()
+    const instance = Manager(instanceHash)
+    await pingInstance(instance)
+    console.log('instance populated')
   }
 
   async function login() {
@@ -68,10 +72,18 @@ export default function GettingStarted() {
   }
 
   async function createInstance() {
-    await Accounts.createInstance({
+    const {
+      data: { randomHashID }
+    } = await Accounts.createInstance({
       name: randomWords({ exactly: 3, join: ' ' })
     })
     console.log('created instance')
+    return randomHashID
+  }
+
+  async function pingInstance(instance) {
+    console.log('pinging instance')
+    return await instance.get()
   }
 
   return (

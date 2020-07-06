@@ -12,10 +12,10 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
     https: true,
-    host: 'start.dev.zesty.io'
+    host: 'start.stage.zesty.io'
   },
   devtool: 'cheap-module-source-map',
-  mode: process.env.NODE_ENV,
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   output: {
     filename:
       process.env.NODE_ENV === 'development'

@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'production') {
     SERVICE_GOOGLE_ANALYTICS_AUTH: '',
     SERVICE_GOOGLE_ANALYTICS_READ: '',
 
-    URL_MANAGER: '.manager.zesty.io',
+    URL_MANAGER: '.manage.zesty.io',
     URL_MANAGER_PROTOCOL: 'https://',
     URL_PREVIEW: '-dev.preview.zesty.io',
     URL_PREVIEW_PROTOCOL: 'https://',
@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
     SERVICE_GOOGLE_ANALYTICS_READ:
       'https://us-central1-zesty-stage.cloudfunctions.net/googleAnalyticsGetPageViews',
 
-    URL_MANAGER: '.manager.stage.zesty.io',
+    URL_MANAGER: '.stage-manage.zesty.io',
     URL_MANAGER_PROTOCOL: 'https://',
     URL_PREVIEW: '-dev.preview.stage.zesty.io',
     URL_PREVIEW_PROTOCOL: 'https://',
