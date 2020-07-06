@@ -2,7 +2,7 @@ import { request } from './client'
 const Manager = hash => {
   return {
     get: () => {
-      return request(
+      return window.fetch(
         `${__CONFIG__.URL_MANAGER_PROTOCOL}${hash}${__CONFIG__.URL_MANAGER}`,
         {
           mode: 'no-cors',

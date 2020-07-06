@@ -28,6 +28,11 @@ export default function GettingStarted() {
     password: '',
     eula: false
   })
+  const [instance, setInstance] = useState({
+    instanceZUID: '',
+    instanceHash: '',
+    instanceReady: false
+  })
 
   const [page, setPage] = useState({
     title: '',
@@ -53,9 +58,18 @@ export default function GettingStarted() {
     setStep(2)
 
     await login()
-    const instanceHash = await createInstance()
-    const instance = Manager(instanceHash)
+    console.log('logged in')
+    const res = await createInstance()
+    console.log('created instance')
+    setInstance({
+      ...instance,
+      instanceZUID: res.data.ZUID,
+      instanceHash: res.data.randomHashID
+    })
+    const instance = Manager(res.data.randomHashID)
+    console.log('pinging instance')
     await pingInstance(instance)
+    setInstance({ ...instance, instanceReady: true })
     console.log('instance populated')
   }
 
@@ -63,7 +77,6 @@ export default function GettingStarted() {
     const {
       meta: { token }
     } = await Auth.login({ email: account.email, password: account.password })
-    console.log('logged in')
 
     Cookies.set(__CONFIG__.COOKIE_NAME, token, {
       path: '/',
@@ -72,17 +85,12 @@ export default function GettingStarted() {
   }
 
   async function createInstance() {
-    const {
-      data: { randomHashID }
-    } = await Accounts.createInstance({
+    return await Accounts.createInstance({
       name: randomWords({ exactly: 3, join: ' ' })
     })
-    console.log('created instance')
-    return randomHashID
   }
 
   async function pingInstance(instance) {
-    console.log('pinging instance')
     return await instance.get()
   }
 
@@ -132,6 +140,7 @@ export default function GettingStarted() {
         style={{ width: '960px' }}
         labelButtonNext="Preview landing page">
         <ContentPage
+          instanceReady={instance.instanceReady}
           page={page}
           setPage={(type, value) => {
             setPage({ ...page, [type]: value })
