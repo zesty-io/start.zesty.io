@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
+import randomWords from 'random-words'
 
 import { Wizard, WizardStep } from '../Wizard'
 
@@ -50,7 +51,8 @@ export default function GettingStarted() {
     dispatch({ type: 'SET_ACCOUNT', payload: account })
     setStep(2)
 
-    login()
+    await login()
+    createInstance()
   }
 
   async function login() {
@@ -63,6 +65,13 @@ export default function GettingStarted() {
       path: '/',
       domain: __CONFIG__.COOKIE_DOMAIN
     })
+  }
+
+  async function createInstance() {
+    await Accounts.createInstance({
+      name: randomWords({ exactly: 3, join: ' ' })
+    })
+    console.log('created instance')
   }
 
   return (
