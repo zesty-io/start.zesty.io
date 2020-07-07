@@ -24,18 +24,18 @@ export function ContentPage(props) {
             <FieldTypeText
               className={styles.TextField}
               label="Page Description"
-              name="description"
-              value={props.page.description}
+              name="content"
+              value={props.page.content}
               onChange={(name, value) => props.setPage(name, value)}
             />
-            <FieldTypeImage
+            {/* <FieldTypeImage
               className={styles.TextField}
               name="image"
               onChange={(name, value) => props.setPage(name, value)}
               default={props.page.image}
               label="Upload image"
               limit="1"
-            />
+            /> */}
           </div>
         </>
       ) : (

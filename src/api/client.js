@@ -1,7 +1,7 @@
 // adapted from https://kentcdodds.com/blog/replace-axios-with-a-simple-custom-fetch-wrapper
 import Cookies from 'js-cookie'
 export function client(baseUrl) {
-  return (endpoint, { body, ...customConfig } = {}) => {
+  return (endpoint, { body, method, ...customConfig } = {}) => {
     const token = Cookies.get(__CONFIG__.COOKIE_NAME)
     const headers =
       body instanceof FormData ? {} : { 'content-type': 'application/json' }
@@ -9,7 +9,7 @@ export function client(baseUrl) {
       headers.Authorization = `Bearer ${token}`
     }
     const config = {
-      method: body ? 'POST' : 'GET',
+      method: method ? method : body ? 'POST' : 'GET',
       ...customConfig,
       headers: {
         ...headers,

@@ -4,8 +4,6 @@ import randomWords from 'random-words'
 
 import { Wizard, WizardStep } from '../Wizard'
 
-import { AppStateContext } from '../../context'
-
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
 import { SiteCreated } from './components/SiteCreated'
@@ -14,12 +12,13 @@ import { ContentPage } from './components/ContentPage'
 import Auth from '../../api/auth'
 import Accounts from '../../api/accounts'
 import Manager from '../../api/manager'
+import InstancesAPI from '../../api/instances'
 
 export default function GettingStarted() {
-  const { state, dispatch } = useContext(AppStateContext)
   const [step, setStep] = useState(null)
   const [build, setBuild] = useState('')
   const [account, setAccount] = useState({
+    ZUID: '',
     message: '',
     submitted: false,
     email: '',
@@ -36,41 +35,70 @@ export default function GettingStarted() {
 
   const [page, setPage] = useState({
     title: '',
-    description: '',
+    content: '',
     image: []
   })
 
-  useEffect(() => {
-    console.log('Global state', state)
-  }, [])
+  const [homepageContent, setHomepageContent] = useState({})
 
-  async function createAccount(e) {
+  async function createInstanceWorkflow(e) {
     e.preventDefault()
 
-    await Accounts.createAccount({
+    // 1) Create Account
+    const userResponse = await Accounts.createAccount({
       email: account.email,
       firstName: account.firstName,
       lastName: account.lastName,
       password: account.password
     })
+    setAccount({ ...account, ZUID: userResponse.ZUID })
     console.log('created account')
-    dispatch({ type: 'SET_ACCOUNT', payload: account })
+    // advance to next step
     setStep(2)
 
+    // 2) Login
     await login()
     console.log('logged in')
-    const res = await createInstance()
-    console.log('created instance')
-    setInstance({
-      ...instance,
-      instanceZUID: res.data.ZUID,
-      instanceHash: res.data.randomHashID
+
+    // 3) Create Instance
+    const instanceResponse = await Accounts.createInstance({
+      name: randomWords({ exactly: 3, join: ' ' })
     })
-    const instance = Manager(res.data.randomHashID)
-    console.log('pinging instance')
-    await pingInstance(instance)
-    setInstance({ ...instance, instanceReady: true })
+    const instanceZUID = instanceResponse.data.ZUID
+    const instanceHash = instanceResponse.data.randomHashID
+    console.log('created instance')
+    setInstance(instance => {
+      return {
+        ...instance,
+        instanceZUID,
+        instanceHash
+      }
+    })
+
+    // 4) Set Blueprint
+    await Accounts.updateBlueprint(instanceZUID, 37)
+    console.log('blueprint set')
+
+    // 5) Populate Instance
+    await Manager(instanceHash).get()
+    setInstance(instance => {
+      return { ...instance, instanceReady: true }
+    })
     console.log('instance populated')
+
+    // 6) Fetch Content Models
+    const Instance = InstancesAPI(instanceZUID)
+    const models = await Instance.fetchModels()
+    const homepageModel = models.data.find(model => model.name === 'homepage')
+    setInstance(instance => {
+      return { ...instance, modelZUID: homepageModel.ZUID }
+    })
+    console.log('homepageModelZUID: ', homepageModel.ZUID)
+
+    // 7) Fetch Homepage Content
+    const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
+    setHomepageContent(itemsResponse.data[0])
+    console.log('set homepage content')
   }
 
   async function login() {
@@ -84,20 +112,23 @@ export default function GettingStarted() {
     })
   }
 
-  async function createInstance() {
-    return await Accounts.createInstance({
-      name: randomWords({ exactly: 3, join: ' ' })
-    })
-  }
-
-  async function pingInstance(instance) {
-    return await instance.get()
+  async function saveContent() {
+    const Instance = InstancesAPI(instance.instanceZUID)
+    const body = {
+      ...homepageContent,
+      data: {
+        title: page.title,
+        content: page.content
+      }
+    }
+    const content = await Instance.editHomepage(body)
+    console.log('edited homepage')
   }
 
   return (
     <Wizard defaultStep={step}>
       <WizardStep
-        onNext={() => dispatch({ type: 'SELECT_TYPE', payload: build })}
+        onNext={() => setBuild(build)}
         labelButtonNext="Create your free account"
         style={{ width: '960px' }}>
         <BuildType buildType={build} setBuildType={type => setBuild(type)} />
@@ -109,7 +140,7 @@ export default function GettingStarted() {
           setAccount={(type, value) =>
             setAccount({ ...account, [type]: value })
           }
-          createAccount={createAccount}
+          createAccount={createInstanceWorkflow}
         />
       </WizardStep>
 
@@ -136,14 +167,16 @@ export default function GettingStarted() {
       </WizardStep>
 
       <WizardStep
-        onNext={() => dispatch({ type: 'SET_PAGE', payload: page })}
+        onNext={() => saveContent()}
         style={{ width: '960px' }}
         labelButtonNext="Preview landing page">
         <ContentPage
           instanceReady={instance.instanceReady}
           page={page}
           setPage={(type, value) => {
-            setPage({ ...page, [type]: value })
+            setPage(page => {
+              return { ...page, [type]: value }
+            })
           }}
         />
       </WizardStep>
