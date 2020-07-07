@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { hot } from 'react-hot-loader/root'
 
 import { AppProvider } from '../../context'
 
@@ -9,7 +10,7 @@ import client from '../../api/client'
 
 import styles from './App.less'
 
-export default function App() {
+function App() {
   return (
     <AppProvider>
       <section className={cx(styles.AppShell, styles.bodyText)}>
@@ -20,3 +21,5 @@ export default function App() {
     </AppProvider>
   )
 }
+
+export default hot(App)

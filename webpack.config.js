@@ -8,20 +8,22 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CONFIG = require('./app.config')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['react-hot-loader/patch', './src/index.js'],
+  output: {
+    filename:
+      process.env.NODE_ENV === 'development' ? '[name].js' : '[name].[hash].js',
+    path: path.resolve(__dirname, 'build')
+  },
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
+    hot: true,
     https: true,
     host: 'start.stage.zesty.io'
   },
   devtool: 'cheap-module-source-map',
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  output: {
-    filename:
-      process.env.NODE_ENV === 'development'
-        ? '[name].js'
-        : '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'build')
+  resolve: {
+    alias: { 'react-dom': '@hot-loader/react-dom' }
   },
   plugins: [
     new CleanWebpackPlugin({
@@ -31,7 +33,7 @@ module.exports = {
       filename:
         process.env.NODE_ENV === 'development'
           ? '[name].css'
-          : '[name].[contenthash].css'
+          : '[name].[hash].css'
     }),
     new CopyPlugin({
       patterns: ['public']
@@ -66,7 +68,8 @@ module.exports = {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
         query: {
-          presets: ['@babel/preset-env', '@babel/preset-react']
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: ['react-hot-loader/babel']
         }
       }
     ]
