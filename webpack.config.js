@@ -11,7 +11,7 @@ module.exports = {
   entry: ['react-hot-loader/patch', './src/index.js'],
   output: {
     filename:
-      process.env.NODE_ENV === 'development' ? '[name].js' : '[name].[hash].js',
+      process.env.NODE_ENV !== 'production' ? '[name].js' : '[name].[hash].js',
     path: path.resolve(__dirname, 'build')
   },
   devServer: {
@@ -31,7 +31,7 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename:
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV !== 'production'
           ? '[name].css'
           : '[name].[hash].css'
     }),
@@ -50,7 +50,12 @@ module.exports = {
       {
         test: /\.less$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV !== 'production'
+            }
+          },
           {
             loader: 'css-loader',
             options: {
