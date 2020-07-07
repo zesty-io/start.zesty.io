@@ -8,6 +8,7 @@ import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
 import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
+// import { notify } from '../Notifications'
 
 import Auth from '../../api/auth'
 import Accounts from '../../api/accounts'

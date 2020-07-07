@@ -22,6 +22,7 @@ const initialState = {
     firstName: '',
     lastName: '',
     pass: '',
+    sbmitted: false,
     eula: false
   },
   page: {
