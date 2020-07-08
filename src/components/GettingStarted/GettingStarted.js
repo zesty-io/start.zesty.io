@@ -11,6 +11,7 @@ import { CreateAccount } from './components/CreateAccount'
 import Login from './components/Login'
 import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
+import { SitePreview } from './components/SitePreview'
 // import { notify } from '../Notifications'
 
 import Auth from '../../api/auth'
@@ -210,7 +211,12 @@ export default function GettingStarted() {
           />
         </WithLoader>
       </WizardStep>
-      <WizardStep></WizardStep>
+      <WizardStep>
+        <SitePreview
+          previewPage={`https://${instance.instanceHash}-dev.preview.stage.zesty.io/`}
+          dashboardPage={`https://${instance.instanceHash}.stage-manage.zesty.io/`}
+        />
+      </WizardStep>
     </Wizard>
   )
 }
