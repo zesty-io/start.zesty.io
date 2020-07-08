@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import randomWords from 'random-words'
 
+import { WithLoader } from '@zesty-io/core/WithLoader'
+
 import { Wizard, WizardStep } from '../Wizard'
 
 import { BuildType } from './components/BuildType'
@@ -15,6 +17,8 @@ import Auth from '../../api/auth'
 import Accounts from '../../api/accounts'
 import Manager from '../../api/manager'
 import InstancesAPI from '../../api/instances'
+
+import styles from './GettingStarted.less'
 
 export default function GettingStarted() {
   const [authType, setAuthType] = useState('createAccount')
@@ -190,16 +194,21 @@ export default function GettingStarted() {
       <WizardStep
         onNext={() => saveContent()}
         style={{ width: '960px' }}
-        labelButtonNext="Preview landing page">
-        <ContentPage
-          instanceReady={instance.instanceReady}
-          page={page}
-          setPage={(type, value) => {
-            setPage(page => {
-              return { ...page, [type]: value }
-            })
-          }}
-        />
+        labelButtonNext="Preview landing page"
+        buttons={instance.instanceReady}>
+        <WithLoader
+          className={styles.Loading}
+          condition={instance.instanceReady}
+          message="Creating Instance">
+          <ContentPage
+            page={page}
+            setPage={(type, value) => {
+              setPage(page => {
+                return { ...page, [type]: value }
+              })
+            }}
+          />
+        </WithLoader>
       </WizardStep>
       <WizardStep></WizardStep>
     </Wizard>
