@@ -6,6 +6,7 @@ import { Wizard, WizardStep } from '../Wizard'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
+import Login from './components/Login'
 import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
 // import { notify } from '../Notifications'
@@ -43,9 +44,7 @@ export default function GettingStarted() {
 
   const [homepageContent, setHomepageContent] = useState({})
 
-  async function createInstanceWorkflow(e) {
-    e.preventDefault()
-
+  async function createAccount() {
     // 1) Create Account
     const userResponse = await Accounts.createAccount({
       email: account.email,
@@ -55,14 +54,22 @@ export default function GettingStarted() {
     })
     setAccount({ ...account, ZUID: userResponse.ZUID })
     console.log('created account')
-    // advance to next step
-    setStep(2)
+  }
 
-    // 2) Login
-    await login()
+  async function login() {
+    const {
+      meta: { token }
+    } = await Auth.login({ email: account.email, password: account.password })
+
+    Cookies.set(__CONFIG__.COOKIE_NAME, token, {
+      path: '/',
+      domain: __CONFIG__.COOKIE_DOMAIN
+    })
     console.log('logged in')
+  }
 
-    // 3) Create Instance
+  async function createInstanceWorkflow() {
+    // 1) Create Instance
     const instanceResponse = await Accounts.createInstance({
       name: randomWords({ exactly: 3, join: ' ' })
     })
@@ -77,18 +84,18 @@ export default function GettingStarted() {
       }
     })
 
-    // 4) Set Blueprint
+    // 2) Set Blueprint
     await Accounts.updateBlueprint(instanceZUID, 37)
     console.log('blueprint set')
 
-    // 5) Populate Instance
+    // 3) Populate Instance
     await Manager(instanceHash).get()
     setInstance(instance => {
       return { ...instance, instanceReady: true }
     })
     console.log('instance populated')
 
-    // 6) Fetch Content Models
+    // 4) Fetch Content Models
     const Instance = InstancesAPI(instanceZUID)
     const models = await Instance.fetchModels()
     const homepageModel = models.data.find(model => model.name === 'homepage')
@@ -97,21 +104,10 @@ export default function GettingStarted() {
     })
     console.log('homepageModelZUID: ', homepageModel.ZUID)
 
-    // 7) Fetch Homepage Content
+    // 5) Fetch Homepage Content
     const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
     setHomepageContent(itemsResponse.data[0])
     console.log('set homepage content')
-  }
-
-  async function login() {
-    const {
-      meta: { token }
-    } = await Auth.login({ email: account.email, password: account.password })
-
-    Cookies.set(__CONFIG__.COOKIE_NAME, token, {
-      path: '/',
-      domain: __CONFIG__.COOKIE_DOMAIN
-    })
   }
 
   async function saveContent() {
@@ -144,10 +140,29 @@ export default function GettingStarted() {
             setAccount={(type, value) =>
               setAccount({ ...account, [type]: value })
             }
-            createAccount={createInstanceWorkflow}
+            createAccount={async e => {
+              await createAccount()
+              setStep(2)
+              await login()
+              createInstanceWorkflow()
+            }}
           />
         )}
-        {authType === 'login' && <div>Login</div>}
+        {authType === 'login' && (
+          <Login
+            account={account}
+            switchToCreateAccount={() => setAuthType('createAccount')}
+            setAccount={(type, value) =>
+              setAccount({ ...account, [type]: value })
+            }
+            login={async e => {
+              e.preventDefault()
+              await login()
+              setStep(2)
+              createInstanceWorkflow()
+            }}
+          />
+        )}
       </WizardStep>
 
       <WizardStep style={{ width: '960px' }}>
