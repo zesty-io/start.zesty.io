@@ -145,10 +145,17 @@ export function CreateAccount(props) {
                 ) : null}
               </form>
             </main>
-            {/* <footer className={styles.Login}>
+            <footer className={styles.Login}>
               <p>Already have an account?</p>
-              <AppLink to="/login">Sign In</AppLink>
-            </footer> */}
+              <a
+                href="#"
+                onClick={e => {
+                  e.preventDefault()
+                  props.switchToLogin()
+                }}>
+                Sign In
+              </a>
+            </footer>
           </div>
         </section>
       </div>

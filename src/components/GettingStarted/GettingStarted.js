@@ -16,6 +16,7 @@ import Manager from '../../api/manager'
 import InstancesAPI from '../../api/instances'
 
 export default function GettingStarted() {
+  const [authType, setAuthType] = useState('createAccount')
   const [step, setStep] = useState(null)
   const [build, setBuild] = useState('')
   const [account, setAccount] = useState({
@@ -136,13 +137,17 @@ export default function GettingStarted() {
       </WizardStep>
 
       <WizardStep style={{ width: '750px' }} buttons={false}>
-        <CreateAccount
-          account={account}
-          setAccount={(type, value) =>
-            setAccount({ ...account, [type]: value })
-          }
-          createAccount={createInstanceWorkflow}
-        />
+        {authType === 'createAccount' && (
+          <CreateAccount
+            account={account}
+            switchToLogin={() => setAuthType('login')}
+            setAccount={(type, value) =>
+              setAccount({ ...account, [type]: value })
+            }
+            createAccount={createInstanceWorkflow}
+          />
+        )}
+        {authType === 'login' && <div>Login</div>}
       </WizardStep>
 
       <WizardStep style={{ width: '960px' }}>
