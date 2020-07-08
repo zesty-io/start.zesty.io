@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import { WithLoader } from '@zesty-io/core/WithLoader'
 
 import { Wizard, WizardStep } from '../Wizard'
+import { AppError } from '../AppError'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'

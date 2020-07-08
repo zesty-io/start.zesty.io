@@ -7,17 +7,22 @@ export class AppError extends Component {
   }
 
   static getDerivedStateFromError(error) {
+    console.log('getDerived', error)
     return { hasError: true }
   }
 
   componentDidCatch(error, errorInfo) {
-    console.log('error', error)
+    if (error instanceof Promise) {
+      console.log('Error from promise')
+    }
+    console.log('error', error, errorInfo)
     this.setState({
       hasError: true
     })
   }
 
   render() {
+    console.log('render')
     if (this.state.hasError) {
       return <h1>Something went wrong</h1>
     }
