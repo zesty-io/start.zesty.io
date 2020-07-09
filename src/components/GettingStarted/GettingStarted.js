@@ -12,6 +12,7 @@ import Login from './components/Login'
 import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
 import { SitePreview } from './components/SitePreview'
+import { JSONPreview } from './components/JSONPreview'
 // import { notify } from '../Notifications'
 
 import Auth from '../../api/auth'
@@ -48,6 +49,7 @@ export default function GettingStarted() {
   })
 
   const [homepageContent, setHomepageContent] = useState({})
+  const [contentJSON, setContentJSON] = useState({})
 
   async function createAccount() {
     // 1) Create Account
@@ -124,6 +126,29 @@ export default function GettingStarted() {
     }
     const content = await Instance.editHomepage(body)
     console.log('edited homepage')
+  }
+
+  async function updateJSONSettings() {
+    const Instance = InstancesAPI(instance.instanceZUID)
+    const res = await Instance.fetchSettings()
+    const contentJSONSetting = res.data.find(
+      setting => setting.key === 'basic_content_api_enabled'
+    )
+    const contentCORSSetting = res.data.find(
+      setting => setting.key === 'basic_content_api_cors_allow_any_origin'
+    )
+    await Promise.all([
+      Instance.updateSetting({ ...contentJSONSetting, value: '1' }),
+      Instance.updateSetting({ ...contentCORSSetting, value: '1' })
+    ])
+  }
+
+  async function fetchJSONPreview() {
+    setContentJSON(
+      await Manager(instance.instanceHash).fetchInstantJSONPreview(
+        homepageContent.meta.ZUID
+      )
+    )
   }
 
   return (
@@ -215,16 +240,27 @@ export default function GettingStarted() {
             saveContent={async e => {
               e.preventDefault()
               await saveContent()
+              if (build === 'api') {
+                await updateJSONSettings()
+                await fetchJSONPreview()
+              }
               setStep(6)
             }}
           />
         </WithLoader>
       </WizardStep>
       <WizardStep>
-        <SitePreview
-          previewPage={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}`}
-          dashboardPage={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}`}
-        />
+        {build === 'api' ? (
+          <JSONPreview
+            json={contentJSON}
+            dashboardPage={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}`}
+          />
+        ) : (
+          <SitePreview
+            previewPage={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}`}
+            dashboardPage={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}`}
+          />
+        )}
       </WizardStep>
     </Wizard>
   )

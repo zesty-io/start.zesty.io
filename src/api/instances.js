@@ -14,7 +14,13 @@ const InstancesAPI = ZUID => {
           body
         }
       )
-    }
+    },
+    fetchSettings: () => apiClient('env/settings'),
+    updateSetting: updatedSetting =>
+      apiClient(`env/settings/${updatedSetting.ZUID}`, {
+        method: 'PUT',
+        body: updatedSetting
+      })
   }
 }
 

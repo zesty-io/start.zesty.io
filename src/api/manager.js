@@ -9,6 +9,11 @@ const Manager = hash => {
           credentials: 'include'
         }
       )
+    },
+    fetchInstantJSONPreview: contentZUID => {
+      return request(
+        `${__CONFIG__.URL_PREVIEW_PROTOCOL}${hash}${__CONFIG__.URL_PREVIEW}/-/instant/${contentZUID}.json`
+      )
     }
   }
 }
