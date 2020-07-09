@@ -8,7 +8,7 @@ export function BuildType(props) {
   return (
     <>
       <h2 className={styles.display}>Get started with Zesty.io</h2>
-      <p className={styles.title}>Wath do you want to build?</p>
+      <p className={styles.title}>What do you want to build?</p>
 
       <main className={styles.Cards}>
         <Card

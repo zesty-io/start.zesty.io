@@ -116,6 +116,12 @@ export default function GettingStarted() {
   }
 
   async function saveContent() {
+    setPage(page => {
+      return {
+        ...page,
+        submitted: true
+      }
+    })
     const Instance = InstancesAPI(instance.instanceZUID)
     const body = {
       ...homepageContent,
@@ -131,9 +137,9 @@ export default function GettingStarted() {
   return (
     <Wizard defaultStep={step}>
       <WizardStep
-        onNext={() => setBuild(build)}
         labelButtonNext="Create your free account"
-        style={{ width: '960px' }}>
+        style={{ width: '960px' }}
+        locked={build === ''}>
         <BuildType buildType={build} setBuildType={type => setBuild(type)} />
       </WizardStep>
 
@@ -146,6 +152,13 @@ export default function GettingStarted() {
               setAccount({ ...account, [type]: value })
             }
             createAccount={async e => {
+              e.preventDefault()
+              setAccount(account => {
+                return {
+                  ...account,
+                  submitted: true
+                }
+              })
               await createAccount()
               setStep(2)
               await login()
@@ -162,6 +175,12 @@ export default function GettingStarted() {
             }
             login={async e => {
               e.preventDefault()
+              setAccount(account => {
+                return {
+                  ...account,
+                  submitted: true
+                }
+              })
               await login()
               setStep(2)
               createInstanceWorkflow()
@@ -170,21 +189,21 @@ export default function GettingStarted() {
         )}
       </WizardStep>
 
-      <WizardStep style={{ width: '960px' }}>
+      <WizardStep style={{ width: '960px' }} showPrevButton={false}>
         <SiteCreated
           image="https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg"
           title="Schema"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit"
         />
       </WizardStep>
-      <WizardStep style={{ width: '960px' }}>
+      <WizardStep style={{ width: '960px' }} showPrevButton={false}>
         <SiteCreated
           image="https://madewithnetwork.ams3.cdn.digitaloceanspaces.com//spatie-space-production/3212/zesty-io-2.jpg"
           title="Content"
           description="Lorem ipsum dolor sit amet consectetur adipisicing elit"
         />
       </WizardStep>
-      <WizardStep style={{ width: '960px' }}>
+      <WizardStep style={{ width: '960px' }} showPrevButton={false}>
         <SiteCreated
           image="https://cdn0.capterra-static.com/screenshots/2101737/18986.png"
           title="Code"
@@ -193,10 +212,9 @@ export default function GettingStarted() {
       </WizardStep>
 
       <WizardStep
-        onNext={() => saveContent()}
         style={{ width: '960px' }}
         labelButtonNext="Preview landing page"
-        buttons={instance.instanceReady}>
+        buttons={false}>
         <WithLoader
           className={styles.Loading}
           condition={instance.instanceReady}
@@ -207,6 +225,11 @@ export default function GettingStarted() {
               setPage(page => {
                 return { ...page, [type]: value }
               })
+            }}
+            saveContent={async e => {
+              e.preventDefault()
+              await saveContent()
+              setStep(6)
             }}
           />
         </WithLoader>

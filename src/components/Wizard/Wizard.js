@@ -32,7 +32,7 @@ export function Wizard(props) {
   // show footer on all but last step
   const showFooter =
     step < props.children.length - 1 && child.props.buttons !== false
-  const showPrevButton = step > 0
+  const showPrevButton = step > 0 && child.props.showPrevButton !== false
   const showNextButton = step < props.children.length
 
   return (
