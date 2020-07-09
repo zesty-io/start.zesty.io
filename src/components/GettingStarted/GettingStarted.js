@@ -236,8 +236,8 @@ export default function GettingStarted() {
       </WizardStep>
       <WizardStep>
         <SitePreview
-          previewPage={`https://${instance.instanceHash}-dev.preview.stage.zesty.io/`}
-          dashboardPage={`https://${instance.instanceHash}.stage-manage.zesty.io/`}
+          previewPage={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}`}
+          dashboardPage={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}`}
         />
       </WizardStep>
     </Wizard>
