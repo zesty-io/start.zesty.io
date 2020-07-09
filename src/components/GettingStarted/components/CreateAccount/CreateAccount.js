@@ -145,7 +145,7 @@ export function CreateAccount(props) {
                 ) : null}
               </form>
             </main>
-            <footer className={styles.Login}>
+            {/* <footer className={styles.Login}>
               <p>Already have an account?</p>
               <a
                 href="#"
@@ -155,7 +155,7 @@ export function CreateAccount(props) {
                 }}>
                 Sign In
               </a>
-            </footer>
+            </footer> */}
           </div>
         </section>
       </div>
