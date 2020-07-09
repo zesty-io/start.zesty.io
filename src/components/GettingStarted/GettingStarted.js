@@ -81,13 +81,6 @@ export default function GettingStarted() {
     const instanceZUID = instanceResponse.data.ZUID
     const instanceHash = instanceResponse.data.randomHashID
     console.log('created instance')
-    setInstance(instance => {
-      return {
-        ...instance,
-        instanceZUID,
-        instanceHash
-      }
-    })
 
     // 2) Set Blueprint
     await Accounts.updateBlueprint(instanceZUID, 37)
@@ -95,32 +88,31 @@ export default function GettingStarted() {
 
     // 3) Populate Instance
     await Manager(instanceHash).get()
-    setInstance(instance => {
-      return { ...instance, instanceReady: true }
-    })
     console.log('instance populated')
 
     // 4) Fetch Content Models
     const Instance = InstancesAPI(instanceZUID)
     const models = await Instance.fetchModels()
     const homepageModel = models.data.find(model => model.name === 'homepage')
-    setInstance(instance => {
-      return { ...instance, modelZUID: homepageModel.ZUID }
-    })
     console.log('homepageModelZUID: ', homepageModel.ZUID)
 
     // 5) Fetch Homepage Content
     const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
     setHomepageContent(itemsResponse.data[0])
     console.log('set homepage content')
+    setInstance({
+      ...instance,
+      instanceZUID,
+      instanceHash,
+      instanceReady: true,
+      modelZUID: homepageModel.ZUID
+    })
   }
 
   async function saveContent() {
-    setPage(page => {
-      return {
-        ...page,
-        submitted: true
-      }
+    setPage({
+      ...page,
+      submitted: true
     })
     const Instance = InstancesAPI(instance.instanceZUID)
     const body = {
@@ -153,11 +145,9 @@ export default function GettingStarted() {
             }
             createAccount={async e => {
               e.preventDefault()
-              setAccount(account => {
-                return {
-                  ...account,
-                  submitted: true
-                }
+              setAccount({
+                ...account,
+                submitted: true
               })
               await createAccount()
               setStep(2)
@@ -175,11 +165,9 @@ export default function GettingStarted() {
             }
             login={async e => {
               e.preventDefault()
-              setAccount(account => {
-                return {
-                  ...account,
-                  submitted: true
-                }
+              setAccount({
+                ...account,
+                submitted: true
               })
               await login()
               setStep(2)
@@ -222,9 +210,7 @@ export default function GettingStarted() {
           <ContentPage
             page={page}
             setPage={(type, value) => {
-              setPage(page => {
-                return { ...page, [type]: value }
-              })
+              setPage({ ...page, [type]: value })
             }}
             saveContent={async e => {
               e.preventDefault()

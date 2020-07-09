@@ -14,7 +14,7 @@ export function SitePreview(props) {
         <Button className={cx(styles.Button, styles.NextButton)} kind="primary">
           <Url className={styles.link} href={props.dashboardPage}>
             <i className={cx('fa fa-chevron-right', styles.ButtonIcon)} />
-            Continue to Dashboard
+            &nbsp; Continue to Dashboard
           </Url>
         </Button>
       </div>
