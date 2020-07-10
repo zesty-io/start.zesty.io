@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Cookies from 'js-cookie'
-import randomWords from 'random-words'
 
 import { WithLoader } from '@zesty-io/core/WithLoader'
 
@@ -26,6 +25,11 @@ export default function GettingStarted() {
   const [authType, setAuthType] = useState('createAccount')
   const [step, setStep] = useState(null)
   const [build, setBuild] = useState('')
+  const buildNames = {
+    landingpage: 'Landing Page',
+    corporate: 'Corporate Blog',
+    api: 'API'
+  }
   const [account, setAccount] = useState({
     ZUID: '',
     message: '',
@@ -78,7 +82,7 @@ export default function GettingStarted() {
   async function createInstanceWorkflow() {
     // 1) Create Instance
     const instanceResponse = await Accounts.createInstance({
-      name: randomWords({ exactly: 3, join: ' ' })
+      name: buildNames[build]
     })
     const instanceZUID = instanceResponse.data.ZUID
     const instanceHash = instanceResponse.data.randomHashID
@@ -124,7 +128,7 @@ export default function GettingStarted() {
         content: page.content
       }
     }
-    const content = await Instance.editHomepage(body)
+    await Instance.editHomepage(body)
     console.log('edited homepage')
   }
 
