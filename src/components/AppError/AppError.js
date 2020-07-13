@@ -5,7 +5,7 @@ import styles from './AppError.less'
 export class AppError extends Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: true }
+    this.state = { hasError: false }
   }
 
   static getDerivedStateFromError(error) {
