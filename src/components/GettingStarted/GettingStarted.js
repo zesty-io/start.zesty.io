@@ -5,6 +5,7 @@ import { WithLoader } from '@zesty-io/core/WithLoader'
 
 import { Wizard, WizardStep } from '../Wizard'
 import { AppError } from '../AppError'
+import { AppStateContext } from '../../context'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
@@ -25,6 +26,8 @@ export default function GettingStarted() {
   const [authType, setAuthType] = useState('createAccount')
   const [step, setStep] = useState(0)
   const [build, setBuild] = useState('')
+  const [hasError, setHasError] = useState(false)
+
   const buildNames = {
     landingpage: 'Landing Page',
     corporate: 'Corporate Blog',
@@ -153,6 +156,10 @@ export default function GettingStarted() {
         homepageContent.meta.ZUID
       )
     )
+  }
+
+  if (hasError) {
+    return <AppError />
   }
 
   return (

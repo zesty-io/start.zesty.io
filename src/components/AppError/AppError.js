@@ -12,9 +12,6 @@ export class AppError extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    if (error instanceof Promise) {
-      console.log('Error from promise')
-    }
     console.log('error', error, errorInfo)
     this.setState({
       hasError: true
@@ -22,7 +19,6 @@ export class AppError extends Component {
   }
 
   render() {
-    console.log('render')
     if (this.state.hasError) {
       return <h1>Something went wrong</h1>
     }
