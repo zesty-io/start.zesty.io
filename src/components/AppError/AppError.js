@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
+import styles from './AppError.less'
+
 export class AppError extends Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false }
+    this.state = { hasError: true }
   }
 
   static getDerivedStateFromError(error) {
@@ -20,7 +22,17 @@ export class AppError extends Component {
 
   render() {
     if (this.state.hasError) {
-      return <h1>Something went wrong</h1>
+      return (
+        <div className={styles.ErrorContainer}>
+          <div>
+            <img
+              src="https://financesonline.com/uploads/2019/10/Zesty-io-logo1.png"
+              alt="zest"
+            />
+            <h1>Something went wrong</h1>
+          </div>
+        </div>
+      )
     }
 
     return this.props.children
