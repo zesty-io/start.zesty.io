@@ -10,8 +10,7 @@ import { CreateAccount } from './components/CreateAccount'
 import Login from './components/Login'
 import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
-import { SitePreview } from './components/SitePreview'
-import { JSONPreview } from './components/JSONPreview'
+import { Preview } from './components/Preview'
 // import { notify } from '../Notifications'
 
 import Auth from '../../api/auth'
@@ -23,7 +22,7 @@ import styles from './GettingStarted.less'
 
 export default function GettingStarted() {
   const [authType, setAuthType] = useState('createAccount')
-  const [step, setStep] = useState(null)
+  const [step, setStep] = useState(0)
   const [build, setBuild] = useState('')
   const buildNames = {
     landingpage: 'Landing Page',
@@ -164,7 +163,7 @@ export default function GettingStarted() {
         <BuildType buildType={build} setBuildType={type => setBuild(type)} />
       </WizardStep>
 
-      <WizardStep style={{ width: '750px' }} buttons={false}>
+      <WizardStep style={{ width: '600px' }} buttons={false}>
         {authType === 'createAccount' && (
           <CreateAccount
             account={account}
@@ -208,23 +207,23 @@ export default function GettingStarted() {
 
       <WizardStep style={{ width: '960px' }} showPrevButton={false}>
         <SiteCreated
-          image="https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg"
-          title="Schema"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit"
+          video="https://www.youtube.com/embed/aD0iVpQwONw"
+          title="What are Content Model?"
+          description="Content Models contain instructions (options and fields) that determine the format of the content items that can be created and stored in them. For example, let's pretend we created a content model called Person, and Person has two fields: name and date of birth. Person now serves as a model to follow when entering or editing content in the Person content model."
         />
       </WizardStep>
       <WizardStep style={{ width: '960px' }} showPrevButton={false}>
         <SiteCreated
-          image="https://madewithnetwork.ams3.cdn.digitaloceanspaces.com//spatie-space-production/3212/zesty-io-2.jpg"
-          title="Content"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit"
+          image="https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg"
+          title="What are Content Item?"
+          description="Content Items are created from a Content Model. Which then have content added specific to that items purpose."
         />
       </WizardStep>
       <WizardStep style={{ width: '960px' }} showPrevButton={false}>
         <SiteCreated
           image="https://cdn0.capterra-static.com/screenshots/2101737/18986.png"
-          title="Code"
-          description="Lorem ipsum dolor sit amet consectetur adipisicing elit"
+          title="What are Content Views?"
+          description="Content Views are where you can author code which determines the visual aspect of a Content Item. By referencing the Content Model fields in your Content Views you can dynamically link a Content Item data to the visual display."
         />
       </WizardStep>
 
@@ -235,7 +234,7 @@ export default function GettingStarted() {
         <WithLoader
           className={styles.Loading}
           condition={instance.instanceReady}
-          message="Creating Instance">
+          message="We are creating your sandbox, thanks for waiting.">
           <ContentPage
             page={page}
             setPage={(type, value) => {
@@ -254,17 +253,12 @@ export default function GettingStarted() {
         </WithLoader>
       </WizardStep>
       <WizardStep>
-        {build === 'api' ? (
-          <JSONPreview
-            json={contentJSON}
-            dashboardPage={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}`}
-          />
-        ) : (
-          <SitePreview
-            previewPage={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}`}
-            dashboardPage={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}`}
-          />
-        )}
+        <Preview
+          type={build === 'api' ? 'api' : 'website'}
+          json={contentJSON}
+          managerURL={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}/`}
+          previewURL={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}`}
+        />
       </WizardStep>
     </Wizard>
   )

@@ -1,3 +1,44 @@
-// .WizardStep {
-//   padding: 5em;
-// }
+@import '~@zesty-io/core/colors.less';
+@import '~@zesty-io/core/typography.less';
+
+.WizardStepLayout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #f4f4f4;
+
+  .WizardStep {
+    padding: 32px 0;
+  }
+
+  .WizardFooter {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    width: 100%;
+
+    &.CenteredFooter {
+      justify-content: center;
+    }
+
+    // .NextButton {
+    //   background-color: @zesty-green;
+    // }
+  }
+
+  .WaveTop,
+  .WaveBottom {
+    background-image: url(https://kfg6bckb.media.zestyio.com/bg_wave_1.png);
+    background-position: top center;
+    background-repeat: repeat-x;
+    background-color: #f4f4f4;
+    height: 127px;
+    width: 100%;
+  }
+  .WaveBottom {
+    background-image: url(https://kfg6bckb.media.zestyio.com/bg_wave_2.png);
+    height: 90px;
+  }
+}

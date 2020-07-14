@@ -2,17 +2,25 @@ import React from 'react'
 
 import { Button } from '@zesty-io/core/Button'
 import { FieldTypeText } from '@zesty-io/core/FieldTypeText'
+import { FieldTypeTextarea } from '@zesty-io/core/FieldTypeTextarea'
 // import { FieldTypeImage } from '@zesty-io/core/FieldTypeImage'
 
 import styles from './ContentPage.less'
-
 export function ContentPage(props) {
   return (
     <>
-      <h2 className={styles.display}>
-        Let's set the content of your landing page
-      </h2>
-      <form name="saveContent" onSubmit={props.saveContent}>
+      <header className={styles.ContentPage}>
+        <h2 className={styles.headline}>Now to add your content!</h2>
+        <p className={styles.bodyText}>
+          Don't worry if this is not the content you ultimately want. You will
+          be able to change this at anytime within Zesty.io
+        </p>
+      </header>
+
+      <form
+        className={styles.saveContent}
+        name="saveContent"
+        onSubmit={props.saveContent}>
         <div className={styles.FieldSet}>
           <FieldTypeText
             required
@@ -23,9 +31,9 @@ export function ContentPage(props) {
             value={props.page.title}
             onChange={(name, value) => props.setPage(name, value)}
           />
-          <FieldTypeText
+          <FieldTypeTextarea
             required
-            className={styles.TextField}
+            className={styles.Textarea}
             label="Page Content"
             name="content"
             value={props.page.content}

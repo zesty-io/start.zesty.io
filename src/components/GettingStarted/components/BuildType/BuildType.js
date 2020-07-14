@@ -6,9 +6,21 @@ import { Card } from '@zesty-io/core/Card'
 import styles from './BuildType.less'
 export function BuildType(props) {
   return (
-    <>
-      <h2 className={styles.display}>Get started with Zesty.io</h2>
-      <p className={styles.title}>What do you want to build?</p>
+    <React.Fragment>
+      <header className={styles.GettingStarted}>
+        <h2 className={styles.headline}>Get started with Zesty.io</h2>
+        <h3 className={styles.subheadline}>
+          A web hosted Content Management System (CMS)
+        </h3>
+        <p className={styles.bodyText}>
+          We will start by picking the type of content you would like to build
+          from the three options shown.
+        </p>
+        <p className={styles.bodyText}>
+          Don't worry if you change your mind later. Once in Zesty.io you can
+          always create another sandbox.
+        </p>
+      </header>
 
       <main className={styles.Cards}>
         <Card
@@ -48,6 +60,6 @@ export function BuildType(props) {
           </p> */}
         </Card>
       </main>
-    </>
+    </React.Fragment>
   )
 }
