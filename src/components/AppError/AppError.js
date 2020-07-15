@@ -1,22 +1,27 @@
 import React, { Component } from 'react'
 
-import styles from './AppError.less'
+import { Url } from '@zesty-io/core/Url'
 
+import styles from './AppError.less'
 export function ErrorMessage() {
+  const accountsURL = 'https://accounts.zesty.io/instances/create'
+
+  setTimeout(() => {
+    window.location = accountsURL
+  }, 6000)
+
   return (
     <div className={styles.ErrorContainer}>
       <img
-        src="https://financesonline.com/uploads/2019/10/Zesty-io-logo1.png"
-        alt="zesty"
+        alt="Zesty.io Logo"
+        src="https://brand.zesty.io/zesty-io-logo-horizontal.svg"
+        height="60px"
       />
-      <h1>
+      <p className={styles.headline}>
         Oh no! Something went wrong. Don't worry it's not your fault. We are
-        going to send to an alternate way to{' '}
-        <a href="https://accounts.zesty.io/instances/create">
-          create an instance
-        </a>
-        .
-      </h1>
+        going to redirect you to an alternative way to{' '}
+        <Url href={accountsURL}>create a sandbox</Url>
+      </p>
     </div>
   )
 }
