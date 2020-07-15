@@ -57,7 +57,6 @@ export default function GettingStarted() {
   const [contentJSON, setContentJSON] = useState({})
 
   async function createAccount() {
-    // 1) Create Account
     try {
       const userResponse = await Accounts.createAccount({
         email: account.email,
@@ -66,7 +65,6 @@ export default function GettingStarted() {
         password: account.password
       })
       setAccount({ ...account, ZUID: userResponse.ZUID })
-      console.log('created account')
     } catch (err) {
       if (err.error.includes('Duplicate entry')) {
         setAccount({
@@ -89,7 +87,6 @@ export default function GettingStarted() {
       path: '/',
       domain: __CONFIG__.COOKIE_DOMAIN
     })
-    console.log('logged in')
   }
 
   async function createInstanceWorkflow() {
@@ -100,26 +97,21 @@ export default function GettingStarted() {
       })
       const instanceZUID = instanceResponse.data.ZUID
       const instanceHash = instanceResponse.data.randomHashID
-      console.log('created instance')
 
       // 2) Set Blueprint
       await Accounts.updateBlueprint(instanceZUID, 37)
-      console.log('blueprint set')
 
       // 3) Populate Instance
       await Manager(instanceHash).get()
-      console.log('instance populated')
 
       // 4) Fetch Content Models
       const Instance = InstancesAPI(instanceZUID)
       const models = await Instance.fetchModels()
       const homepageModel = models.data.find(model => model.name === 'homepage')
-      console.log('homepageModelZUID: ', homepageModel.ZUID)
 
       // 5) Fetch Homepage Content
       const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
       setHomepageContent(itemsResponse.data[0])
-      console.log('set homepage content')
       setInstance({
         ...instance,
         instanceZUID,
@@ -147,7 +139,6 @@ export default function GettingStarted() {
       }
     }
     await Instance.editHomepage(body)
-    console.log('edited homepage')
   }
 
   async function updateJSONSettings() {
@@ -281,7 +272,7 @@ export default function GettingStarted() {
         <Preview
           type={build === 'api' ? 'api' : 'website'}
           json={contentJSON}
-          managerURL={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}/#!/${instance.modelZUID}/${instance.itemZUID}`}
+          managerURL={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}/#!/content/${instance.modelZUID}/${instance.itemZUID}`}
           previewURL={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}`}
         />
       </WizardStep>
