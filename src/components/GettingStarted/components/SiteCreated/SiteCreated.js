@@ -11,9 +11,9 @@ export function SiteCreated(props) {
           width="960"
           height="560"
           src={props.video}
-          frameborder="0"
+          frameBorder="0"
           allow=" encrypted-media;"
-          allowfullscreen></iframe>
+          allowFullScreen></iframe>
       )}
 
       <h2 className={styles.display}>{props.title}</h2>

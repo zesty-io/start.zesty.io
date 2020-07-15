@@ -4,10 +4,8 @@ import { Input } from '@zesty-io/core/Input'
 import { Button } from '@zesty-io/core/Button'
 import { Url } from '@zesty-io/core/Url'
 
-import cx from 'classnames'
-import qs from 'qs'
-
 import styles from './CreateAccount.less'
+
 export function CreateAccount(props) {
   return (
     <>

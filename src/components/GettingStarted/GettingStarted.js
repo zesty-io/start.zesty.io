@@ -4,8 +4,7 @@ import Cookies from 'js-cookie'
 import { WithLoader } from '@zesty-io/core/WithLoader'
 
 import { Wizard, WizardStep } from '../Wizard'
-import { AppError } from '../AppError'
-import { AppStateContext } from '../../context'
+import { ErrorMessage } from '../AppError'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
@@ -13,7 +12,6 @@ import Login from './components/Login'
 import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
 import { Preview } from './components/Preview'
-// import { notify } from '../Notifications'
 
 import Auth from '../../api/auth'
 import Accounts from '../../api/accounts'
@@ -26,7 +24,7 @@ export default function GettingStarted() {
   const [authType, setAuthType] = useState('createAccount')
   const [step, setStep] = useState(0)
   const [build, setBuild] = useState('')
-  const [hasError, setHasError] = useState(false)
+  const [error, setError] = useState(false)
 
   const buildNames = {
     landingpage: 'Landing Page',
@@ -60,14 +58,26 @@ export default function GettingStarted() {
 
   async function createAccount() {
     // 1) Create Account
-    const userResponse = await Accounts.createAccount({
-      email: account.email,
-      firstName: account.firstName,
-      lastName: account.lastName,
-      password: account.password
-    })
-    setAccount({ ...account, ZUID: userResponse.ZUID })
-    console.log('created account')
+    try {
+      const userResponse = await Accounts.createAccount({
+        email: account.email,
+        firstName: account.firstName,
+        lastName: account.lastName,
+        password: account.password
+      })
+      setAccount({ ...account, ZUID: userResponse.ZUID })
+      console.log('created account')
+    } catch (err) {
+      if (err.error.includes('Duplicate entry')) {
+        setAccount({
+          ...account,
+          submitted: false,
+          message: 'Email address is already registered.'
+        })
+      }
+      return false
+    }
+    return true
   }
 
   async function login() {
@@ -83,39 +93,44 @@ export default function GettingStarted() {
   }
 
   async function createInstanceWorkflow() {
-    // 1) Create Instance
-    const instanceResponse = await Accounts.createInstance({
-      name: buildNames[build]
-    })
-    const instanceZUID = instanceResponse.data.ZUID
-    const instanceHash = instanceResponse.data.randomHashID
-    console.log('created instance')
+    try {
+      // 1) Create Instance
+      const instanceResponse = await Accounts.createInstance({
+        name: buildNames[build]
+      })
+      const instanceZUID = instanceResponse.data.ZUID
+      const instanceHash = instanceResponse.data.randomHashID
+      console.log('created instance')
 
-    // 2) Set Blueprint
-    await Accounts.updateBlueprint(instanceZUID, 37)
-    console.log('blueprint set')
+      // 2) Set Blueprint
+      await Accounts.updateBlueprint(instanceZUID, 37)
+      console.log('blueprint set')
 
-    // 3) Populate Instance
-    await Manager(instanceHash).get()
-    console.log('instance populated')
+      // 3) Populate Instance
+      await Manager(instanceHash).get()
+      console.log('instance populated')
 
-    // 4) Fetch Content Models
-    const Instance = InstancesAPI(instanceZUID)
-    const models = await Instance.fetchModels()
-    const homepageModel = models.data.find(model => model.name === 'homepage')
-    console.log('homepageModelZUID: ', homepageModel.ZUID)
+      // 4) Fetch Content Models
+      const Instance = InstancesAPI(instanceZUID)
+      const models = await Instance.fetchModels()
+      const homepageModel = models.data.find(model => model.name === 'homepage')
+      console.log('homepageModelZUID: ', homepageModel.ZUID)
 
-    // 5) Fetch Homepage Content
-    const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
-    setHomepageContent(itemsResponse.data[0])
-    console.log('set homepage content')
-    setInstance({
-      ...instance,
-      instanceZUID,
-      instanceHash,
-      instanceReady: true,
-      modelZUID: homepageModel.ZUID
-    })
+      // 5) Fetch Homepage Content
+      const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
+      setHomepageContent(itemsResponse.data[0])
+      console.log('set homepage content')
+      setInstance({
+        ...instance,
+        instanceZUID,
+        instanceHash,
+        instanceReady: true,
+        modelZUID: homepageModel.ZUID,
+        itemZUID: itemsResponse.data[0].meta.ZUID
+      })
+    } catch (err) {
+      setError(true)
+    }
   }
 
   async function saveContent() {
@@ -158,8 +173,8 @@ export default function GettingStarted() {
     )
   }
 
-  if (hasError) {
-    return <AppError />
+  if (error) {
+    return <ErrorMessage />
   }
 
   return (
@@ -185,10 +200,12 @@ export default function GettingStarted() {
                 ...account,
                 submitted: true
               })
-              await createAccount()
-              setStep(2)
-              await login()
-              createInstanceWorkflow()
+              const created = await createAccount()
+              if (created) {
+                setStep(2)
+                await login()
+                createInstanceWorkflow()
+              }
             }}
           />
         )}
@@ -216,14 +233,14 @@ export default function GettingStarted() {
       <WizardStep style={{ width: '960px' }} showPrevButton={false}>
         <SiteCreated
           video="https://www.youtube.com/embed/aD0iVpQwONw"
-          title="What are Content Model?"
+          title="What are Content Models?"
           description="Content Models contain instructions (options and fields) that determine the format of the content items that can be created and stored in them. For example, let's pretend we created a content model called Person, and Person has two fields: name and date of birth. Person now serves as a model to follow when entering or editing content in the Person content model."
         />
       </WizardStep>
       <WizardStep style={{ width: '960px' }} showPrevButton={false}>
         <SiteCreated
           image="https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg"
-          title="What are Content Item?"
+          title="What are Content Items?"
           description="Content Items are created from a Content Model. Which then have content added specific to that items purpose."
         />
       </WizardStep>
@@ -264,7 +281,7 @@ export default function GettingStarted() {
         <Preview
           type={build === 'api' ? 'api' : 'website'}
           json={contentJSON}
-          managerURL={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}/`}
+          managerURL={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}/#!/${instance.modelZUID}/${instance.itemZUID}`}
           previewURL={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}`}
         />
       </WizardStep>
