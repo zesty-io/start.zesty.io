@@ -169,15 +169,14 @@ export default function GettingStarted() {
   }
 
   return (
-    <Wizard defaultStep={step}>
+    <Wizard defaultStep={step} style={{ width: '960px' }}>
       <WizardStep
         labelButtonNext="Create your free account"
-        style={{ width: '960px' }}
         locked={build === ''}>
         <BuildType buildType={build} setBuildType={type => setBuild(type)} />
       </WizardStep>
 
-      <WizardStep style={{ width: '600px' }} buttons={false}>
+      <WizardStep buttons={false}>
         {authType === 'createAccount' && (
           <CreateAccount
             account={account}
@@ -221,21 +220,21 @@ export default function GettingStarted() {
         )}
       </WizardStep>
 
-      <WizardStep style={{ width: '960px' }} showPrevButton={false}>
+      <WizardStep showPrevButton={false}>
         <SiteCreated
           video="https://www.youtube.com/embed/aD0iVpQwONw"
           title="What are Content Models?"
           description="Content Models contain instructions (options and fields) that determine the format of the content items that can be created and stored in them. For example, let's pretend we created a content model called Person, and Person has two fields: name and date of birth. Person now serves as a model to follow when entering or editing content in the Person content model."
         />
       </WizardStep>
-      <WizardStep style={{ width: '960px' }} showPrevButton={false}>
+      <WizardStep showPrevButton={false}>
         <SiteCreated
           image="https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg"
           title="What are Content Items?"
           description="Content Items are created from a Content Model. Which then have content added specific to that items purpose."
         />
       </WizardStep>
-      <WizardStep style={{ width: '960px' }} showPrevButton={false}>
+      <WizardStep showPrevButton={false}>
         <SiteCreated
           image="https://cdn0.capterra-static.com/screenshots/2101737/18986.png"
           title="What are Content Views?"
@@ -243,10 +242,7 @@ export default function GettingStarted() {
         />
       </WizardStep>
 
-      <WizardStep
-        style={{ width: '960px' }}
-        labelButtonNext="Preview landing page"
-        buttons={false}>
+      <WizardStep labelButtonNext="Preview landing page" buttons={false}>
         <WithLoader
           className={styles.Loading}
           condition={instance.instanceReady}
