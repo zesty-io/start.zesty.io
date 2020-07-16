@@ -8,7 +8,7 @@ export function SelectRole(props) {
   return (
     <React.Fragment>
       <header className={styles.GettingStarted}>
-        <h2 className={styles.subheadline}>What is your role?</h2>
+        <h2 className={styles.headline}>Select your role</h2>
         {/* <p className={styles.bodyText}>
           By selecting your role we
         </p> */}

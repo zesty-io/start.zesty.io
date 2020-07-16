@@ -189,12 +189,12 @@ export default function GettingStarted() {
   return (
     <Wizard defaultStep={step} style={{ width: '960px' }}>
       <WizardStep
-        labelButtonNext="1/6 Next: Create your free account"
+        labelButtonNext="1/7 Next: Create your free account"
         locked={build === ''}>
         <BuildType buildType={build} setBuildType={type => setBuild(type)} />
       </WizardStep>
 
-      <WizardStep buttons={false} labelButtonNext="2/6 Next: Select your role">
+      <WizardStep buttons={false} labelButtonNext="2/7 Next: Select your role">
         {authType === 'createAccount' && (
           <CreateAccount
             account={account}
@@ -239,21 +239,21 @@ export default function GettingStarted() {
       </WizardStep>
 
       <WizardStep
-        labelButtonNext="3/6 Next: Learn about Content Models"
+        labelButtonNext="3/7 Next: Learn about Content Models"
         showPrevButton={false}
         onNext={captureRole}>
         <SelectRole role={role} setRole={setRole} />
       </WizardStep>
       {/* <WizardStep
         showPrevButton={false}
-        labelButtonNext="2/6 Next: Select your role"></WizardStep>
+        labelButtonNext="2/7 Next: Select your role"></WizardStep>
       <WizardStep
         showPrevButton={false}
-        labelButtonNext="2/6 Next: Select your role"></WizardStep> */}
+        labelButtonNext="2/7 Next: Select your role"></WizardStep> */}
 
       <WizardStep
         showPrevButton={false}
-        labelButtonNext="4/6 Next: Learn about Content Items">
+        labelButtonNext="4/7 Next: Learn about Content Items">
         <SiteCreated
           video="https://www.youtube.com/embed/aD0iVpQwONw"
           title="What are Content Models?"
@@ -262,7 +262,7 @@ export default function GettingStarted() {
       </WizardStep>
       <WizardStep
         showPrevButton={false}
-        labelButtonNext="5/6 Next: Learn about Content Views">
+        labelButtonNext="5/7 Next: Learn about Content Views">
         <SiteCreated
           image="https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg"
           title="What are Content Items?"
@@ -271,7 +271,7 @@ export default function GettingStarted() {
       </WizardStep>
       <WizardStep
         showPrevButton={false}
-        labelButtonNext="6/6 Next: Preview your sandbox">
+        labelButtonNext="6/7 Next: Add content">
         <SiteCreated
           image="https://cdn0.capterra-static.com/screenshots/2101737/18986.png"
           title="What are Content Views?"
@@ -279,7 +279,8 @@ export default function GettingStarted() {
         />
       </WizardStep>
 
-      <WizardStep labelButtonNext="Preview landing page" buttons={false}>
+      <WizardStep labelButtonNext="7/7 Next: Preview your sandbox">
+        buttons={false}>
         <WithLoader
           className={styles.Loading}
           condition={instance.instanceReady}
@@ -296,7 +297,7 @@ export default function GettingStarted() {
                 await updateJSONSettings()
                 await fetchJSONPreview()
               }
-              setStep(6)
+              setStep(7)
             }}
           />
         </WithLoader>
