@@ -23,7 +23,7 @@ import InstancesAPI from '../../api/instances'
 import styles from './GettingStarted.less'
 export default function GettingStarted() {
   const [authType, setAuthType] = useState('createAccount')
-  const [step, setStep] = useState(2)
+  const [step, setStep] = useState(0)
   const [build, setBuild] = useState('')
   const [error, setError] = useState(false)
 
