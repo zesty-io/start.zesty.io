@@ -8,21 +8,22 @@ import { ErrorMessage } from '../AppError'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
-import Login from './components/Login'
+// import Login from './components/Login'
+import { SelectRole } from './components/SelectRole'
 import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
 import { Preview } from './components/Preview'
 
+import { request } from '../../api/client'
 import Auth from '../../api/auth'
 import Accounts from '../../api/accounts'
 import Manager from '../../api/manager'
 import InstancesAPI from '../../api/instances'
 
 import styles from './GettingStarted.less'
-
 export default function GettingStarted() {
   const [authType, setAuthType] = useState('createAccount')
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(2)
   const [build, setBuild] = useState('')
   const [error, setError] = useState(false)
 
@@ -55,6 +56,8 @@ export default function GettingStarted() {
 
   const [homepageContent, setHomepageContent] = useState({})
   const [contentJSON, setContentJSON] = useState({})
+
+  const [role, setRole] = useState('')
 
   async function createAccount() {
     try {
@@ -164,6 +167,21 @@ export default function GettingStarted() {
     )
   }
 
+  async function captureRole() {
+    return request(
+      'https://us-central1-zesty-prod.cloudfunctions.net/onboardQuestion',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          question: 'What is your Role?',
+          answer: role,
+          path: window.location.href,
+          email: account.email
+        })
+      }
+    )
+  }
+
   if (error) {
     return <ErrorMessage />
   }
@@ -171,12 +189,12 @@ export default function GettingStarted() {
   return (
     <Wizard defaultStep={step} style={{ width: '960px' }}>
       <WizardStep
-        labelButtonNext="Create your free account"
+        labelButtonNext="1/6 Next: Create your free account"
         locked={build === ''}>
         <BuildType buildType={build} setBuildType={type => setBuild(type)} />
       </WizardStep>
 
-      <WizardStep buttons={false}>
+      <WizardStep buttons={false} labelButtonNext="2/6 Next: Select your role">
         {authType === 'createAccount' && (
           <CreateAccount
             account={account}
@@ -220,21 +238,40 @@ export default function GettingStarted() {
         )}
       </WizardStep>
 
-      <WizardStep showPrevButton={false}>
+      <WizardStep
+        labelButtonNext="3/6 Next: Learn about Content Models"
+        showPrevButton={false}
+        onNext={captureRole}>
+        <SelectRole role={role} setRole={setRole} />
+      </WizardStep>
+      {/* <WizardStep
+        showPrevButton={false}
+        labelButtonNext="2/6 Next: Select your role"></WizardStep>
+      <WizardStep
+        showPrevButton={false}
+        labelButtonNext="2/6 Next: Select your role"></WizardStep> */}
+
+      <WizardStep
+        showPrevButton={false}
+        labelButtonNext="4/6 Next: Learn about Content Items">
         <SiteCreated
           video="https://www.youtube.com/embed/aD0iVpQwONw"
           title="What are Content Models?"
           description="Content Models contain instructions (options and fields) that determine the format of the content items that can be created and stored in them. For example, let's pretend we created a content model called Person, and Person has two fields: name and date of birth. Person now serves as a model to follow when entering or editing content in the Person content model."
         />
       </WizardStep>
-      <WizardStep showPrevButton={false}>
+      <WizardStep
+        showPrevButton={false}
+        labelButtonNext="5/6 Next: Learn about Content Views">
         <SiteCreated
           image="https://i.ytimg.com/vi/1qjPIMfD7_M/maxresdefault.jpg"
           title="What are Content Items?"
           description="Content Items are created from a Content Model. Which then have content added specific to that items purpose."
         />
       </WizardStep>
-      <WizardStep showPrevButton={false}>
+      <WizardStep
+        showPrevButton={false}
+        labelButtonNext="6/6 Next: Preview your sandbox">
         <SiteCreated
           image="https://cdn0.capterra-static.com/screenshots/2101737/18986.png"
           title="What are Content Views?"

@@ -1,0 +1,73 @@
+@import '~@zesty-io/core/colors.less';
+@import '~@zesty-io/core/typography.less';
+
+// .GettingStarted {
+//   h2 {
+//     margin-bottom: 16px;
+//     img {
+//       display: block;
+//       margin-bottom: 4px;
+//     }
+//   }
+//   h3 {
+//     margin: 0 0 8px;
+//   }
+// }
+
+// .Cards {
+//   display: flex;
+//   justify-content: space-between;
+//   margin-top: 32px;
+
+//   .Option {
+//     width: 280px;
+//     height: 300px;
+//     padding: 2em;
+//     text-align: center;
+//     border: 2px solid;
+//     box-sizing: border-box;
+//     cursor: pointer;
+//     margin: 0;
+
+//     &:hover,
+//     &.Selected {
+//       border-color: @zesty-blue;
+//     }
+//     &.Selected {
+//       background-color: @zesty-blue;
+//       color: @zesty-white;
+//     }
+
+//     .icon {
+//       font-size: 60px;
+//       display: block;
+//       margin: 2rem auto;
+//       text-align: center;
+//     }
+
+//     p {
+//       // margin-top: 4px;
+//     }
+//   }
+// }
+
+.Cards {
+  display: flex;
+  justify-content: space-between;
+  margin: 32px 0;
+
+  .Card {
+    cursor: pointer;
+    margin: 0;
+    padding: 8px;
+
+    &:hover,
+    &.Selected {
+      border-color: @zesty-blue;
+    }
+    &.Selected {
+      background-color: @zesty-blue;
+      color: @zesty-white;
+    }
+  }
+}

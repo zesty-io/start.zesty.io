@@ -14,8 +14,10 @@ export function Wizard(props) {
   }, [props.defaultStep])
 
   function next(onNext) {
+    if (onNext) {
+      onNext()
+    }
     setCurrentStep(currentStep => currentStep + 1)
-    if (onNext) onNext()
   }
 
   function prev() {
