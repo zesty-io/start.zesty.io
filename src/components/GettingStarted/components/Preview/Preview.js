@@ -9,7 +9,10 @@ export function Preview(props) {
   return (
     <div className={styles.Preview}>
       <header>
-        <p className={styles.subtitle}>Viewing {props.previewURL}</p>
+        <p className={styles.subtitle}>
+          Viewing{' '}
+          {props.type === 'api' ? props.instantApiURL : props.previewURL}
+        </p>
         <Url href={props.managerURL}>
           <Button kind="save">
             <i className="fa fa-chevron-right" />
@@ -18,18 +21,20 @@ export function Preview(props) {
         </Url>
       </header>
 
-      {props.type === 'website' && (
-        <iframe src={props.previewURL} width="100%" height="650px"></iframe>
-      )}
-      {props.type === 'api' && (
-        <ReactJson
-          src={props.json}
-          name={false}
-          displayDataTypes={false}
-          displayObjectSize={false}
-          enableClipboard={false}
-        />
-      )}
+      <main className={styles.content}>
+        {props.type === 'website' && (
+          <iframe src={props.previewURL} width="100%" height="650px"></iframe>
+        )}
+        {props.type === 'api' && (
+          <ReactJson
+            src={props.json.data[0].content}
+            name={false}
+            displayDataTypes={false}
+            displayObjectSize={false}
+            enableClipboard={false}
+          />
+        )}
+      </main>
     </div>
   )
 }

@@ -57,7 +57,7 @@ export function ContentPage(props) {
               ) : (
                 <React.Fragment>
                   <i className="fas fa-plus" aria-hidden="true" />
-                  &nbsp;Save Content
+                  &nbsp;7/7 Preview your content
                 </React.Fragment>
               )}
             </Button>
