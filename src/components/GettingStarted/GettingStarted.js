@@ -29,8 +29,8 @@ export default function GettingStarted() {
 
   const buildNames = {
     landingpage: 'Landing Page',
-    corporate: 'Corporate Blog',
-    api: 'API'
+    corporate: 'Corporate Website',
+    api: 'Headless'
   }
   const [account, setAccount] = useState({
     ZUID: '',
@@ -251,12 +251,6 @@ export default function GettingStarted() {
         onNext={captureRole}>
         <SelectRole role={role} setRole={setRole} />
       </WizardStep>
-      {/* <WizardStep
-        showPrevButton={false}
-        labelButtonNext="2/7 Select your role"></WizardStep>
-      <WizardStep
-        showPrevButton={false}
-        labelButtonNext="2/7 Select your role"></WizardStep> */}
 
       <WizardStep
         showPrevButton={false}
@@ -267,6 +261,7 @@ export default function GettingStarted() {
           description="Content Models contain instructions (options and fields) that determine the format of the content items that can be created and stored in them. For example, let's pretend we created a content model called Person, and Person has two fields: name and date of birth. Person now serves as a model to follow when entering or editing content in the Person content model."
         />
       </WizardStep>
+
       <WizardStep
         showPrevButton={false}
         labelButtonNext="5/7 Learn about Content Views">
@@ -284,9 +279,7 @@ export default function GettingStarted() {
         />
       </WizardStep>
 
-      <WizardStep
-        // labelButtonNext="7/7 Preview your sandbox"
-        buttons={false}>
+      <WizardStep buttons={false}>
         <WithLoader
           className={styles.Loading}
           condition={instance.instanceReady}

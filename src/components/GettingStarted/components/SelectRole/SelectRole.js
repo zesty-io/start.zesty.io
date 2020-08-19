@@ -8,10 +8,7 @@ export function SelectRole(props) {
   return (
     <React.Fragment>
       <header className={styles.GettingStarted}>
-        <h2 className={styles.headline}>Select your role</h2>
-        {/* <p className={styles.bodyText}>
-          By selecting your role we
-        </p> */}
+        <h2 className={styles.headline}>What are you responsible for?</h2>
       </header>
 
       <main className={styles.Cards}>
@@ -21,11 +18,7 @@ export function SelectRole(props) {
             styles.Card,
             props.role === 'developer' ? styles.Selected : null
           )}>
-          {/* <i className={cx(`far fa-file`, styles.icon)} /> */}
-          <h4 className={styles.headline}>Developer</h4>
-          {/* <p className={styles.bodyText}>
-            Starting point for creating a marketing campaign
-          </p> */}
+          <h4 className={styles.headline}>Development</h4>
         </Card>
         <Card
           onClick={() => props.setRole('marketer')}
@@ -33,23 +26,15 @@ export function SelectRole(props) {
             styles.Card,
             props.role === 'marketer' ? styles.Selected : null
           )}>
-          {/* <i className={cx(`far fa-copy`, styles.icon)} /> */}
-          <h4 className={styles.headline}>Marketer</h4>
-          {/* <p className={styles.bodyText}>
-            Starting point for a long term blog content strategy
-          </p> */}
+          <h4 className={styles.headline}>Marketing</h4>
         </Card>
         <Card
-          onClick={() => props.setRole('author')}
+          onClick={() => props.setRole('content')}
           className={cx(
             styles.Card,
-            props.role === 'author' ? styles.Selected : null
+            props.role === 'content' ? styles.Selected : null
           )}>
-          {/* <i className={cx(`fas fa-database`, styles.icon)} /> */}
-          <h4 className={styles.headline}>Author</h4>
-          {/* <p className={styles.bodyText}>
-            Starting point for setting up a headless powered experience
-          </p> */}
+          <h4 className={styles.headline}>Content</h4>
         </Card>
         <Card
           onClick={() => props.setRole('architect')}
@@ -57,11 +42,7 @@ export function SelectRole(props) {
             styles.Card,
             props.role === 'architect' ? styles.Selected : null
           )}>
-          {/* <i className={cx(`fas fa-database`, styles.icon)} /> */}
-          <h4 className={styles.headline}>Architect</h4>
-          {/* <p className={styles.bodyText}>
-            Starting point for setting up a headless powered experience
-          </p> */}
+          <h4 className={styles.headline}>Architecture</h4>
         </Card>
         <Card
           onClick={() => props.setRole('manager')}
@@ -69,11 +50,7 @@ export function SelectRole(props) {
             styles.Card,
             props.role === 'manager' ? styles.Selected : null
           )}>
-          {/* <i className={cx(`fas fa-database`, styles.icon)} /> */}
-          <h4 className={styles.headline}>Manager</h4>
-          {/* <p className={styles.bodyText}>
-            Starting point for setting up a headless powered experience
-          </p> */}
+          <h4 className={styles.headline}>Management</h4>
         </Card>
       </main>
     </React.Fragment>

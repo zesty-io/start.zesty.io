@@ -14,7 +14,7 @@ export function BuildType(props) {
             src="https://brand.zesty.io/zesty-io-logo-horizontal.svg"
             height="40px"
           />
-          The Headless CMS for Marketers + Developers
+          The Cloud CMS for Marketers + Developers
         </h2>
         {/* <h3 className={styles.headline}>Let's get started!</h3> */}
         <p className={styles.bodyText}>
@@ -35,7 +35,7 @@ export function BuildType(props) {
             props.buildType === 'landingpage' ? styles.Selected : null
           )}>
           <i className={cx(`far fa-file`, styles.icon)} />
-          <h4 className={styles.headline}>Landing page</h4>
+          <h4 className={styles.headline}>Landing Page</h4>
           <p className={styles.bodyText}>
             Starting point for creating a marketing campaign
           </p>
@@ -47,7 +47,7 @@ export function BuildType(props) {
             props.buildType === 'corporate' ? styles.Selected : null
           )}>
           <i className={cx(`far fa-copy`, styles.icon)} />
-          <h4 className={styles.headline}>Corporate blog</h4>
+          <h4 className={styles.headline}>Corporate Website</h4>
           <p className={styles.bodyText}>
             Starting point for a long term blog content strategy
           </p>
@@ -59,7 +59,7 @@ export function BuildType(props) {
             props.buildType === 'api' ? styles.Selected : null
           )}>
           <i className={cx(`fas fa-database`, styles.icon)} />
-          <h4 className={styles.headline}>API</h4>
+          <h4 className={styles.headline}>Headless</h4>
           <p className={styles.bodyText}>
             Starting point for setting up a headless powered experience
           </p>
