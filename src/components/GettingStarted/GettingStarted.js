@@ -14,7 +14,7 @@ import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
 import { Preview } from './components/Preview'
 
-import { request } from '../../api/client'
+import { client, request } from '../../api/client'
 import Auth from '../../api/auth'
 import Accounts from '../../api/accounts'
 import Manager from '../../api/manager'
@@ -175,16 +175,29 @@ export default function GettingStarted() {
   }
 
   async function captureRole() {
-    return request(
-      'https://us-central1-zesty-prod.cloudfunctions.net/onboardQuestion',
+    return client('https://us-central1-zesty-prod.cloudfunctions.net')(
+      'onboardQuestion',
       {
-        method: 'POST',
-        body: JSON.stringify({
+        body: {
           question: 'What is your Role?',
           answer: role,
           path: window.location.href,
           email: account.email
-        })
+        }
+      }
+    )
+  }
+
+  async function captureWebsiteType() {
+    return client('https://us-central1-zesty-prod.cloudfunctions.net')(
+      'onboardQuestion',
+      {
+        body: {
+          question: 'Where is your content going?',
+          answer: build === 'api' ? 'headless' : 'website',
+          path: window.location.href,
+          email: account.email
+        }
       }
     )
   }
@@ -219,12 +232,13 @@ export default function GettingStarted() {
               if (created) {
                 setStep(2)
                 await login()
+                captureWebsiteType()
                 createInstanceWorkflow()
               }
             }}
           />
         )}
-        {authType === 'login' && (
+        {/* {authType === 'login' && (
           <Login
             account={account}
             switchToCreateAccount={() => setAuthType('createAccount')}
@@ -242,7 +256,7 @@ export default function GettingStarted() {
               createInstanceWorkflow()
             }}
           />
-        )}
+        )} */}
       </WizardStep>
 
       <WizardStep
