@@ -24,7 +24,7 @@
   "license": "All Rights Reserved",
   "dependencies": {
     "@hot-loader/react-dom": "^16.13.0",
-    "@zesty-io/core": "0.16.9",
+    "@zesty-io/core": "1.0.0-alpha.15",
     "classnames": "2.2.6",
     "core-js": "^3.6.5",
     "growl": "^1.10.5",

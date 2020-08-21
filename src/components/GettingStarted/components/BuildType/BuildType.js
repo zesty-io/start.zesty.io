@@ -47,7 +47,7 @@ export function BuildType(props) {
             props.buildType === 'corporate' ? styles.Selected : null
           )}>
           <i className={cx(`far fa-copy`, styles.icon)} />
-          <h4 className={styles.headline}>Corporate Website</h4>
+          <h4 className={styles.headline}>Corporate Site</h4>
           <p className={styles.bodyText}>
             Starting point for a long term blog content strategy
           </p>

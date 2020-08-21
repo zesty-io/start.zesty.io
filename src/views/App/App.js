@@ -12,13 +12,13 @@ import styles from './App.less'
 function App() {
   return (
     <AppProvider>
-      <AppError>
-        <section className={cx(styles.AppShell, styles.bodyText)}>
-          <section className={cx('AppMain', styles.AppMain)}>
-            <GettingStarted />
-          </section>
+      {/* <AppError> */}
+      <section className={cx(styles.AppShell, styles.bodyText)}>
+        <section className={cx('AppMain', styles.AppMain)}>
+          <GettingStarted />
         </section>
-      </AppError>
+      </section>
+      {/* </AppError> */}
     </AppProvider>
   )
 }

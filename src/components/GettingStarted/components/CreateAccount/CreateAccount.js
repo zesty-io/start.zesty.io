@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Input } from '@zesty-io/core/Input'
+import { InputPassword } from '@zesty-io/core/InputPassword'
 import { Button } from '@zesty-io/core/Button'
 import { Url } from '@zesty-io/core/Url'
 
@@ -61,16 +62,10 @@ export function CreateAccount(props) {
         </label>
         <label>
           <p>Password</p>
-          <small>
-            Minimum 8 characters. At least one number. A combination of lower
-            and uppercase letters.
-          </small>
-          <Input
+          <InputPassword
             required
             className={styles.input}
-            type="password"
             name="password"
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[?=.*[a-zA-Z0-9!@#$%^&()<>.,:;[\]{}\-_.+,/]{8,}$"
             value={props.account.password}
             onChange={event => props.setAccount('password', event.target.value)}
           />
