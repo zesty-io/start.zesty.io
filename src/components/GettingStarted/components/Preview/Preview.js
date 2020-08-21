@@ -13,12 +13,6 @@ export function Preview(props) {
           Viewing{' '}
           {props.type === 'api' ? props.instantApiURL : props.previewURL}
         </p>
-        <Url href={props.managerURL}>
-          <Button kind="save">
-            <i className="fa fa-chevron-right" />
-            &nbsp;Continue to Dashboard
-          </Button>
-        </Url>
       </header>
 
       <main className={styles.content}>
@@ -35,6 +29,14 @@ export function Preview(props) {
           />
         )}
       </main>
+      <footer>
+        <Url href={props.managerURL}>
+          <Button kind="save">
+            <i className="fa fa-chevron-right" />
+            &nbsp;Continue to Dashboard
+          </Button>
+        </Url>
+      </footer>
     </div>
   )
 }

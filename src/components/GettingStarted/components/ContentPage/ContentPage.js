@@ -29,7 +29,7 @@ export function ContentPage(props) {
             label="Page Title"
             name="title"
             value={props.page.title}
-            onChange={(name, value) => props.setPage(name, value)}
+            onChange={(value, name) => props.setPage(name, value)}
           />
           <FieldTypeTextarea
             required
@@ -37,7 +37,7 @@ export function ContentPage(props) {
             label="Page Content"
             name="content"
             value={props.page.content}
-            onChange={(name, value) => props.setPage(name, value)}
+            onChange={(value, name) => props.setPage(name, value)}
           />
           {/* <FieldTypeImage
               className={styles.TextField}
