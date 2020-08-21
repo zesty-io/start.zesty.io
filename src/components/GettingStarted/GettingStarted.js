@@ -262,6 +262,7 @@ export default function GettingStarted() {
       <WizardStep
         labelButtonNext="3/7 Learn about Content Models"
         showPrevButton={false}
+        locked={role === ''}
         onNext={captureRole}>
         <SelectRole role={role} setRole={setRole} />
       </WizardStep>
