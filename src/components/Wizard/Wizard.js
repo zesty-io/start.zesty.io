@@ -36,8 +36,6 @@ export function Wizard(props) {
   return (
     <section className={styles.Wizard}>
       <div className={styles.WizardSteps}>
-        <div className={styles.WaveTop}></div>
-
         <div style={props.style}>
           {React.cloneElement(child, {
             currentStep: currentStep,
@@ -46,8 +44,6 @@ export function Wizard(props) {
             prev
           })}
         </div>
-
-        <div className={styles.WaveBottom}></div>
       </div>
     </section>
   )

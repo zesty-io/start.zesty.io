@@ -11,10 +11,10 @@ export function BuildType(props) {
         <h2 className={styles.subheadline}>
           <img
             alt="Zesty.io Logo"
-            src="https://brand.zesty.io/zesty-io-logo-horizontal.svg"
-            height="40px"
+            src="https://brand.zesty.io/zesty-io-logo.png"
+            height="60px"
           />
-          The Cloud CMS for Marketers + Developers
+          Start your free sandbox
         </h2>
         {/* <h3 className={styles.headline}>Let's get started!</h3> */}
         <p className={styles.bodyText}>
