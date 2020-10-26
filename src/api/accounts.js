@@ -3,10 +3,10 @@ const AccountsAPI = client(__CONFIG__.API_ACCOUNTS)
 const Accounts = {
   createAccount: body => AccountsAPI('users', { body }),
   createInstance: body => AccountsAPI('instances', { body }),
-  updateBlueprint: (ZUID, blueprintID) =>
-    AccountsAPI(`instances/${ZUID}?action=updateBlueprint`, {
+  updateBlueprint: (ZUID, blueprintZUID) =>
+    AccountsAPI(`instances/${ZUID}/blueprints`, {
       method: 'PUT',
-      body: { blueprintID }
+      body: { zuid: blueprintZUID }
     })
 }
 export default Accounts
