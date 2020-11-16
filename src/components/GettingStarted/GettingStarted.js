@@ -100,26 +100,17 @@ export default function GettingStarted() {
       })
       const instanceZUID = instanceResponse.data.ZUID
       const instanceHash = instanceResponse.data.randomHashID
+      const blueprintZUID = '14-64329e0-555677'
 
       // 2) Set Blueprint
-      await Accounts.updateBlueprint(instanceZUID, 37)
+      await Accounts.updateBlueprint(instanceZUID, blueprintZUID)
 
-      // Wait 2 seconds to let blueprint reset?
-      await new Promise(resolve =>
-        setTimeout(() => {
-          resolve()
-        }, 2000)
-      )
-
-      // 3) Populate Instance
-      await Manager(instanceHash).get()
-
-      // 4) Fetch Content Models
+      // 3) Fetch Content Models
       const Instance = InstancesAPI(instanceZUID)
       const models = await Instance.fetchModels()
       const homepageModel = models.data.find(model => model.name === 'homepage')
 
-      // 5) Fetch Homepage Content
+      // 4) Fetch Homepage Content
       const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
       setHomepageContent(itemsResponse.data[0])
       setInstance({
