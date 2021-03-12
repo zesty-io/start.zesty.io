@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { Url } from '@zesty-io/core/Url'
 
 import styles from './AppError.less'
-export function ErrorMessage() {
+export function AppError() {
   const accountsURL = 'https://accounts.zesty.io/instances/create'
 
   setTimeout(() => {
@@ -24,31 +24,4 @@ export function ErrorMessage() {
       </p>
     </div>
   )
-}
-
-export class AppError extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { hasError: false }
-  }
-
-  static getDerivedStateFromError(error) {
-    console.log('getDerived', error)
-    return { hasError: true }
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.log('error', error, errorInfo)
-    this.setState({
-      hasError: true
-    })
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <ErrorMessage />
-    }
-
-    return this.props.children
-  }
 }

@@ -4,7 +4,6 @@ import Cookies from 'js-cookie'
 import { WithLoader } from '@zesty-io/core/WithLoader'
 
 import { Wizard, WizardStep } from '../Wizard'
-import { ErrorMessage } from '../AppError'
 
 import { BuildType } from './components/BuildType'
 import { CreateAccount } from './components/CreateAccount'
@@ -14,7 +13,7 @@ import { SiteCreated } from './components/SiteCreated'
 import { ContentPage } from './components/ContentPage'
 import { Preview } from './components/Preview'
 
-import { client, request } from '../../api/client'
+import { client } from '../../api/client'
 import Auth from '../../api/auth'
 import Accounts from '../../api/accounts'
 import Manager from '../../api/manager'
@@ -25,7 +24,6 @@ export default function GettingStarted() {
   const [authType, setAuthType] = useState('createAccount')
   const [step, setStep] = useState(0)
   const [build, setBuild] = useState('')
-  const [error, setError] = useState(false)
 
   const buildNames = {
     landingpage: 'Landing Page',
@@ -93,37 +91,33 @@ export default function GettingStarted() {
   }
 
   async function createInstanceWorkflow() {
-    try {
-      // 1) Create Instance
-      const instanceResponse = await Accounts.createInstance({
-        name: buildNames[build]
-      })
-      const instanceZUID = instanceResponse.data.ZUID
-      const instanceHash = instanceResponse.data.randomHashID
-      const blueprintZUID = '14-64329e0-555677'
+    // 1) Create Instance
+    const instanceResponse = await Accounts.createInstance({
+      name: buildNames[build]
+    })
+    const instanceZUID = instanceResponse.data.ZUID
+    const instanceHash = instanceResponse.data.randomHashID
+    const blueprintZUID = '14-64329e0-555677'
 
-      // 2) Set Blueprint
-      await Accounts.updateBlueprint(instanceZUID, blueprintZUID)
+    // 2) Set Blueprint
+    await Accounts.updateBlueprint(instanceZUID, blueprintZUID)
 
-      // 3) Fetch Content Models
-      const Instance = InstancesAPI(instanceZUID)
-      const models = await Instance.fetchModels()
-      const homepageModel = models.data.find(model => model.name === 'homepage')
+    // 3) Fetch Content Models
+    const Instance = InstancesAPI(instanceZUID)
+    const models = await Instance.fetchModels()
+    const homepageModel = models.data.find(model => model.name === 'homepage')
 
-      // 4) Fetch Homepage Content
-      const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
-      setHomepageContent(itemsResponse.data[0])
-      setInstance({
-        ...instance,
-        instanceZUID,
-        instanceHash,
-        instanceReady: true,
-        modelZUID: homepageModel.ZUID,
-        itemZUID: itemsResponse.data[0].meta.ZUID
-      })
-    } catch (err) {
-      setError(true)
-    }
+    // 4) Fetch Homepage Content
+    const itemsResponse = await Instance.fetchModelItems(homepageModel.ZUID)
+    setHomepageContent(itemsResponse.data[0])
+    setInstance({
+      ...instance,
+      instanceZUID,
+      instanceHash,
+      instanceReady: true,
+      modelZUID: homepageModel.ZUID,
+      itemZUID: itemsResponse.data[0].meta.ZUID
+    })
   }
 
   async function saveContent() {
@@ -191,10 +185,6 @@ export default function GettingStarted() {
         }
       }
     )
-  }
-
-  if (error) {
-    return <ErrorMessage />
   }
 
   return (

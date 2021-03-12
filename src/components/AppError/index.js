@@ -1,1 +1,1 @@
-export { AppError, ErrorMessage } from './AppError'
+export { AppError } from './AppError'

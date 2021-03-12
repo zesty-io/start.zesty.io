@@ -4,88 +4,102 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const mkdirp = require('mkdirp')
 
+const release = require('./etc/release')
 const CONFIG = require('./app.config')
 
-module.exports = {
-  entry: ['react-hot-loader/patch', './src/index.js'],
-  output: {
-    filename:
-      process.env.NODE_ENV !== 'production' ? '[name].js' : '[name].[hash].js',
-    path: path.resolve(__dirname, 'build')
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'build'),
-    hot: true,
-    https: true,
-    host: 'start.stage.zesty.io'
-  },
-  devtool: 'cheap-module-source-map',
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  resolve: {
-    alias: { 'react-dom': '@hot-loader/react-dom' }
-  },
-  plugins: [
-    new CleanWebpackPlugin({
-      cleanStaleWebpackAssets: false
-    }),
-    new MiniCssExtractPlugin({
+module.exports = async env => {
+  // create build/ dir
+  mkdirp.sync(path.resolve(__dirname, './build/'))
+  // Attach release info onto config to connect with bug tracking software
+  CONFIG[env.NODE_ENV].build = await release(env.NODE_ENV)
+
+  console.log('SELECTED', env)
+  console.log('CONFIG', CONFIG[env.NODE_ENV])
+
+  return {
+    entry: ['react-hot-loader/patch', './src/index.js'],
+    output: {
       filename:
         process.env.NODE_ENV !== 'production'
-          ? '[name].css'
-          : '[name].[hash].css'
-    }),
-    new CopyPlugin({
-      patterns: ['public']
-    }),
-    new HtmlWebpackPlugin({
-      template: 'src/index.html'
-    }),
-    new webpack.DefinePlugin({
-      __CONFIG__: JSON.stringify(CONFIG)
-    })
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.less$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV !== 'production'
+          ? '[name].js'
+          : '[name].[hash].js',
+      path: path.resolve(__dirname, 'build')
+    },
+    devServer: {
+      contentBase: path.resolve(__dirname, 'build'),
+      hot: true,
+      https: true,
+      host: 'start.stage.zesty.io'
+    },
+    devtool: 'cheap-module-source-map',
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+    resolve: {
+      alias: { 'react-dom': '@hot-loader/react-dom' }
+    },
+    plugins: [
+      new CleanWebpackPlugin({
+        cleanStaleWebpackAssets: false
+      }),
+      new MiniCssExtractPlugin({
+        filename:
+          process.env.NODE_ENV !== 'production'
+            ? '[name].css'
+            : '[name].[hash].css'
+      }),
+      new CopyPlugin({
+        patterns: ['public']
+      }),
+      new HtmlWebpackPlugin({
+        template: 'src/index.html'
+      }),
+      new webpack.DefinePlugin({
+        __CONFIG__: JSON.stringify(CONFIG[env.NODE_ENV])
+      })
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.less$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: process.env.NODE_ENV !== 'production'
+              }
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[local]--[hash:base64:5]'
+              }
+            },
+            {
+              loader: 'less-loader'
             }
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              localIdentName: '[local]--[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'less-loader'
+          ]
+        },
+        {
+          test: /\.js$/,
+          exclude: /(node_modules)/,
+          loader: 'babel-loader',
+          query: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: ['react-hot-loader/babel']
           }
-        ]
-      },
-      {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['@babel/preset-env', '@babel/preset-react'],
-          plugins: ['react-hot-loader/babel']
         }
-      }
-    ]
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
+      ]
+    },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all'
+          }
         }
       }
     }
