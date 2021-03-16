@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CONFIG = require('./app.config')
 
 module.exports = {
-  entry: ['react-hot-loader/patch', './src/index.js'],
+  entry: './src/index.js',
   output: {
     filename:
       process.env.NODE_ENV !== 'production' ? '[name].js' : '[name].[hash].js',
@@ -16,15 +16,11 @@ module.exports = {
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
-    hot: true,
     https: true,
     host: 'start.stage.zesty.io'
   },
   devtool: 'cheap-module-source-map',
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  resolve: {
-    alias: { 'react-dom': '@hot-loader/react-dom' }
-  },
   plugins: [
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false
@@ -73,8 +69,7 @@ module.exports = {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
         query: {
-          presets: ['@babel/preset-env', '@babel/preset-react'],
-          plugins: ['react-hot-loader/babel']
+          presets: ['@babel/preset-env', '@babel/preset-react']
         }
       }
     ]
