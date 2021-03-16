@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Cookies from 'js-cookie'
+import * as Sentry from '@sentry/react'
 
 import { WithLoader } from '@zesty-io/core/WithLoader'
 
@@ -187,6 +188,14 @@ export default function GettingStarted() {
     )
   }
 
+  function attachUserToSentry() {
+    Sentry.setUser({
+      id: account.ZUID,
+      email: account.email,
+      username: `${account.firstName} ${account.lastName}`
+    })
+  }
+
   return (
     <Wizard defaultStep={step} style={{ width: '960px' }}>
       <WizardStep
@@ -213,6 +222,7 @@ export default function GettingStarted() {
               if (created) {
                 setStep(2)
                 await login()
+                attachUserToSentry()
                 captureWebsiteType()
                 createInstanceWorkflow()
               }

@@ -1,14 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
-import { hot } from 'react-hot-loader/root'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 
 import { AppProvider } from '../../context'
 import { AppError } from './../../components/AppError'
-
 import GettingStarted from '../../components/GettingStarted'
-import client from '../../api/client'
 
 import styles from './App.less'
 
@@ -38,4 +35,4 @@ function App() {
   )
 }
 
-export default hot(App)
+export default App
