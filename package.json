@@ -55,7 +55,7 @@
     "copy-webpack-plugin": "^6.0.3",
     "cross-env": "^7.0.2",
     "css-loader": "2.1.0",
-    "cypress": "^4.10.0",
+    "cypress": "^4.12.1",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "husky": "3.0.3",
     "less": "3.9.0",
