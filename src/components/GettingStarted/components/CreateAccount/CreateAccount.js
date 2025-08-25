@@ -30,7 +30,7 @@ export function CreateAccount(props) {
             className={styles.input}
             type="email"
             name="email"
-            placeholder="e.g. hello@zesty.io"
+            placeholder="e.g. hello@content.one"
             value={props.account.email}
             onChange={event => props.setAccount('email', event.target.value)}
           />
@@ -42,7 +42,7 @@ export function CreateAccount(props) {
             className={styles.input}
             type="text"
             name="firstName"
-            placeholder="Zesty"
+            placeholder="content.one"
             value={props.account.firstName}
             onChange={event => {
               props.setAccount('firstName', event.target.value)

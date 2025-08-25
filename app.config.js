@@ -18,14 +18,14 @@ module.exports = {
     SERVICE_GOOGLE_ANALYTICS_READ: '',
 
     // TODO update to manager-ui once released
-    URL_MANAGER: '.manage.zesty.io',
+    URL_MANAGER: '.cms.content.one',
     URL_MANAGER_PROTOCOL: 'https://',
     URL_PREVIEW: '-dev.preview.zesty.io',
     URL_PREVIEW_PROTOCOL: 'https://',
     URL_ACCOUNTS: '',
 
     COOKIE_NAME: 'APP_SID',
-    COOKIE_DOMAIN: '.zesty.io'
+    COOKIE_DOMAIN: '.content.one'
   },
   stage: {
     VERSION: pjson.version,
@@ -47,14 +47,14 @@ module.exports = {
       'https://us-central1-zesty-stage.cloudfunctions.net/googleAnalyticsGetPageViews',
 
     // TODO update to manager-ui once released
-    URL_MANAGER: '.stage-manage.zesty.io',
+    URL_MANAGER: '.cms.stage.content.one',
     URL_MANAGER_PROTOCOL: 'https://',
     URL_PREVIEW: '-dev.preview.stage.zesty.io',
     URL_PREVIEW_PROTOCOL: 'https://',
     URL_ACCOUNTS: '',
 
     COOKIE_NAME: 'STAGE_APP_SID',
-    COOKIE_DOMAIN: '.zesty.io'
+    COOKIE_DOMAIN: '.content.one'
   },
   development: {
     VERSION: pjson.version,
@@ -76,14 +76,14 @@ module.exports = {
     SERVICE_GOOGLE_ANALYTICS_READ:
       'https://us-central1-zesty-dev.cloudfunctions.net/googleAnalyticsGetPageViews',
 
-    URL_MANAGER: '.manager.dev.zesty.io',
+    URL_MANAGER: '.cms.dev.content.one',
     URL_MANAGER_PROTOCOL: 'https://',
     URL_PREVIEW: '-dev.preview.dev.zesty.io',
     URL_PREVIEW_PROTOCOL: 'https://',
     URL_ACCOUNTS: '',
 
     COOKIE_NAME: 'DEV_APP_SID',
-    COOKIE_DOMAIN: '.zesty.io'
+    COOKIE_DOMAIN: '.content.one'
   },
   local: {
     VERSION: pjson.version,
@@ -107,13 +107,13 @@ module.exports = {
     SERVICE_GOOGLE_ANALYTICS_READ:
       'https://us-central1-zesty-dev.cloudfunctions.net/googleAnalyticsGetPageViews',
 
-    URL_MANAGER: '.manager.zesty.localdev:3020',
+    URL_MANAGER: '.cms.content.localdev:3020',
     URL_MANAGER_PROTOCOL: 'http://',
     URL_PREVIEW: '-dev.preview.zesty.localdev:3016',
     URL_PREVIEW_PROTOCOL: 'http://',
     URL_ACCOUNTS: 'http://accounts.zesty.localdev:3100',
 
     COOKIE_NAME: 'DEV_APP_SID',
-    COOKIE_DOMAIN: '.zesty.localdev'
+    COOKIE_DOMAIN: '.content.localdev'
   }
 }

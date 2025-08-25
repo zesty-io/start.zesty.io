@@ -22,7 +22,7 @@ export function BuildType(props) {
           from the three options shown.
         </p>
         <p className={styles.bodyText}>
-          Don't worry if later you change your mind. Once in Zesty.io you can
+          Don't worry if later you change your mind. Once in content.one you can
           always create another sandbox.
         </p>
       </header>

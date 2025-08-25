@@ -13,7 +13,7 @@ export function ContentPage(props) {
         <h2 className={styles.headline}>Now to add your content!</h2>
         <p className={styles.bodyText}>
           Don't worry if this is not the content you ultimately want. You will
-          be able to change this at anytime within Zesty.io
+          be able to change this at anytime within content.one
         </p>
       </header>
 

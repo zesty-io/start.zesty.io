@@ -30,7 +30,7 @@ module.exports = async env => {
     devServer: {
       contentBase: path.resolve(__dirname, 'build'),
       https: true,
-      host: 'start.stage.zesty.io',
+      host: 'start.stage.content.one',
       port: 6006
     },
     devtool: 'cheap-module-source-map',
