@@ -6,9 +6,9 @@
   "scripts": {
     "serve": "serve ./build -n -l 6006 --single",
     "start": "webpack-dev-server --env.NODE_ENV=stage",
-    "build-dev": "webpack --env.NODE_ENV=development",
-    "build-stage": "webpack -p --env.NODE_ENV=stage",
-    "build-prod": "webpack -p --env.NODE_ENV=production",
+    "build:dev": "webpack --env.NODE_ENV=development",
+    "build:stage": "webpack -p --env.NODE_ENV=stage",
+    "build:prod": "webpack -p --env.NODE_ENV=production",
     "test:dev": "cypress open",
     "test": "cypress run --config video=false",
     "release:stage": "npm test && zesty deploy stage .",
