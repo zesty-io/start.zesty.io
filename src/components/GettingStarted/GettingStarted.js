@@ -311,7 +311,7 @@ export default function GettingStarted() {
         <Preview
           type={build === 'api' ? 'api' : 'website'}
           json={contentJSON}
-          managerURL={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_MANAGER}/#!/content/${instance.modelZUID}/${instance.itemZUID}`}
+          managerURL={`${__CONFIG__.URL_MANAGER_PROTOCOL}${instance.instanceZUID}${__CONFIG__.URL_MANAGER}/content/${instance.modelZUID}/${instance.itemZUID}`}
           previewURL={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}`}
           instantApiURL={`${__CONFIG__.URL_PREVIEW_PROTOCOL}${instance.instanceHash}${__CONFIG__.URL_PREVIEW}/-/instant/${instance.modelZUID}.json`}
         />
