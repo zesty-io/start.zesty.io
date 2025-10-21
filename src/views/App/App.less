@@ -1,12 +1,20 @@
-@import '~@zesty-io/core/colors.less';
-@import '~@zesty-io/core/typography.less';
-
+/**
+* Note: Intentionally being lazy and overriding legacy component library with !important
+*/
 .AppShell {
   background-color: #fff;
-  color: #5b667d;
-  font-family: 'Montserrat', Arial, sans-serif;
-  // font-size: 1em;
-  // line-height: 1.4em;
+  color: rgb(100, 116, 139);
+  font-family:
+    'DM Sans',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    Arial,
+    sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 30px !important;
 }
 
 .AppMain {
@@ -19,6 +27,20 @@
     justify-content: center;
     align-items: center;
   }
+}
+
+button {
+  background-color: #3f51b5 !important;
+  font-family:
+    'DM Sans',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    Arial,
+    sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
 }
 
 ::-webkit-scrollbar {

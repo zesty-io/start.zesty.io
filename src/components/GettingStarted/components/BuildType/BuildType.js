@@ -10,13 +10,11 @@ export function BuildType(props) {
       <header className={styles.GettingStarted}>
         <h2 className={styles.subheadline}>
           <img
-            alt="Zesty.io Logo"
-            src="https://brand.zesty.io/zesty-io-logo.png"
+            alt="content.one logo"
+            src="/content-one-brand.png"
             height="60px"
           />
-          Start your free sandbox
         </h2>
-        {/* <h3 className={styles.headline}>Let's get started!</h3> */}
         <p className={styles.bodyText}>
           Let's start by picking the type of sandbox you would like to build
           from the three options shown.
