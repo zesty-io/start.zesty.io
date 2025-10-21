@@ -13,8 +13,8 @@ export function AppError() {
   return (
     <div className={styles.ErrorContainer}>
       <img
-        alt="Zesty.io Logo"
-        src="https://brand.zesty.io/zesty-io-logo-horizontal.svg"
+        alt="content.one logo"
+        src="/content-one-brand.png"
         height="60px"
       />
       <p className={styles.headline}>
