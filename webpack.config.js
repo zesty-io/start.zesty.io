@@ -8,8 +8,9 @@ const mkdirp = require('mkdirp')
 
 const release = require('./etc/release')
 const CONFIG = require('./app.config')
+const { options } = require('less')
 
-module.exports = async env => {
+module.exports = async (env) => {
   // create build/ dir
   mkdirp.sync(path.resolve(__dirname, './build/'))
   // Attach release info onto config to connect with bug tracking software
@@ -25,68 +26,73 @@ module.exports = async env => {
         process.env.NODE_ENV !== 'production'
           ? '[name].js'
           : '[name].[hash].js',
-      path: path.resolve(__dirname, 'build')
+      path: path.resolve(__dirname, 'build'),
     },
     devServer: {
-      contentBase: path.resolve(__dirname, 'build'),
-      https: true,
       host: 'start.stage.content.one',
-      port: 6006
+      port: 6006,
+      server: {
+        type: 'https',
+      },
+      static: {
+        directory: path.join(__dirname, 'build'),
+      },
     },
     devtool: 'cheap-module-source-map',
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     plugins: [
       new CleanWebpackPlugin({
-        cleanStaleWebpackAssets: false
+        cleanStaleWebpackAssets: false,
       }),
       new MiniCssExtractPlugin({
         filename:
           process.env.NODE_ENV !== 'production'
             ? '[name].css'
-            : '[name].[hash].css'
+            : '[name].[hash].css',
       }),
       new CopyPlugin({
-        patterns: ['public']
+        patterns: ['public'],
       }),
       new HtmlWebpackPlugin({
-        template: 'src/index.html'
+        template: 'src/index.html',
       }),
       new webpack.DefinePlugin({
-        __CONFIG__: JSON.stringify(CONFIG[env.NODE_ENV])
-      })
+        __CONFIG__: JSON.stringify(CONFIG[env.NODE_ENV]),
+      }),
     ],
     module: {
       rules: [
         {
           test: /\.less$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                hmr: process.env.NODE_ENV !== 'production'
-              }
-            },
+            MiniCssExtractPlugin.loader,
+
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-                localIdentName: '[local]--[hash:base64:5]'
-              }
+                modules: {
+                  localIdentName: '[local]--[hash:base64:5]',
+                  // Sets the generated module to use a default export
+                  // (which is what 'import styles from "./file.less"' expects)
+                  // instead of only named exports.
+                  namedExport: false,
+                  // Prevents webpack from transforming the class names into camelCase
+                  exportLocalsConvention: 'asIs',
+                },
+              },
             },
-            {
-              loader: 'less-loader'
-            }
-          ]
+            'less-loader',
+          ],
         },
         {
           test: /\.js$/,
           exclude: /(node_modules)/,
           loader: 'babel-loader',
-          query: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
-      ]
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
+      ],
     },
     optimization: {
       splitChunks: {
@@ -94,10 +100,10 @@ module.exports = async env => {
           commons: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
-            chunks: 'all'
-          }
-        }
-      }
-    }
+            chunks: 'all',
+          },
+        },
+      },
+    },
   }
 }
