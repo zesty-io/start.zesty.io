@@ -11,8 +11,8 @@
     "build:prod": "./node_modules/.bin/webpack --mode=production --env NODE_ENV=production",
     "test:dev": "cypress open",
     "test": "cypress run --config video=false",
-    "release:stage": "npm test && zesty deploy stage .",
-    "release:prod": "npm test && zesty deploy prod .",
+    "release:stage": "npm test && zutil deploy stage .",
+    "release:prod": "npm test && zutil deploy prod .",
     "cleanup": "echo 'All done'."
   },
   "author": "Zesty.io<developers@zesty.io>",
