@@ -12,13 +12,12 @@ import styles from './App.less'
 
 const history = createBrowserHistory()
 
-// FIXME: ProjectID doesn't seem to be valid anymore
 if (['stage', 'production'].includes(__CONFIG__.ENV)) {
   Sentry.init({
     release: __CONFIG__.build.data.gitCommit,
     environment: __CONFIG__.ENV,
     integrations: [Sentry.reactRouterV5BrowserTracingIntegration({ history })],
-    dsn: 'https://9e46029d4aef4ae2a4f31c4bd13ddc77@o162121.ingest.sentry.io/5673717',
+    dsn: 'https://e928b01c4b49662953dd530f249d7b10@o162121.ingest.us.sentry.io/4510229055537152',
     autoSessionTracking: true,
     tracesSampleRate: 1.0,
   })
