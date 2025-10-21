@@ -65,9 +65,8 @@ module.exports = async (env) => {
         {
           test: /\.less$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
+            MiniCssExtractPlugin.loader,
+
             {
               loader: 'css-loader',
               options: {
@@ -77,12 +76,12 @@ module.exports = async (env) => {
                   // (which is what 'import styles from "./file.less"' expects)
                   // instead of only named exports.
                   namedExport: false,
+                  // Prevents webpack from transforming the class names into camelCase
+                  exportLocalsConvention: 'asIs',
                 },
               },
             },
-            {
-              loader: 'less-loader',
-            },
+            'less-loader',
           ],
         },
         {
